@@ -1,9 +1,22 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Container, Content } from "native-base";
 import LoginDialog from "../components/LoginDialog";
+import { PropTypes } from "prop-types";
 
 class Login extends React.Component {
+  state = {
+    username: "",
+    password: ""
+  };
+
+  /**
+   * Function to handle user login. Put login logic here
+   */
+  handleLogin = () => {
+    this.props.navigation.navigate("HomeScreen");
+  };
+
   render() {
     return (
       <Container style={styles.container}>
@@ -11,7 +24,7 @@ class Login extends React.Component {
           style={styles.loginForm}
           contentContainerStyle={{ justifyContent: "center", flex: 1 }}
         >
-          <LoginDialog />
+          <LoginDialog handleLogin={this.handleLogin} />
         </Content>
       </Container>
     );
@@ -27,5 +40,9 @@ const styles = StyleSheet.create({
     width: "60%"
   }
 });
+
+Login.propTypes = {
+  navigation: PropTypes.object.isRequired
+};
 
 export default Login;

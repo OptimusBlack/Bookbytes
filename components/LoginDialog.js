@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Form, Input, Item as FormItem, Label, Button } from "native-base";
+import { PropTypes } from "prop-types";
 
 class LoginDialog extends Component {
   render() {
@@ -16,7 +17,13 @@ class LoginDialog extends Component {
           <Input secureTextEntry={true} />
         </FormItem>
 
-        <Button full rounded light style={styles.loginButton}>
+        <Button
+          full
+          rounded
+          light
+          style={styles.loginButton}
+          onPress={this.props.handleLogin}
+        >
           <Text> Login </Text>
         </Button>
         <Button full rounded light style={styles.loginButton}>
@@ -36,5 +43,9 @@ const styles = StyleSheet.create({
     paddingBottom: 4
   }
 });
+
+LoginDialog.propTypes = {
+  handleLogin: PropTypes.func.isRequired
+};
 
 export default LoginDialog;
