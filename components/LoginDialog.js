@@ -1,20 +1,44 @@
 import React, { Component } from "react";
 import { StyleSheet, Text } from "react-native";
+import { connect } from "react-redux";
+import { userLogin } from "../redux/actions";
+
 import { Form, Input, Item as FormItem, Label, Button } from "native-base";
 import { PropTypes } from "prop-types";
 
 class LoginDialog extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
+
+  componentWillMount() {
+    this.setState({
+      username: "",
+      password: ""
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuth) {
+      this.props.handleLogin();
+    }
+  }
+
   render() {
     return (
       <Form>
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Email</Label>
-          <Input />
+          <Input onChangeText={value => this.setState({ username: value })} />
         </FormItem>
 
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Password</Label>
-          <Input secureTextEntry={true} />
+          <Input
+            secureTextEntry={true}
+            onChangeText={value => this.setState({ password: value })}
+          />
         </FormItem>
 
         <Button
@@ -22,11 +46,21 @@ class LoginDialog extends Component {
           rounded
           light
           style={styles.loginButton}
-          onPress={this.props.handleLogin}
+          onPress={() => {
+            this.props.loginUser(this.state.username, this.state.password);
+          }}
+          title={""}
         >
           <Text> Login </Text>
         </Button>
-        <Button full rounded light style={styles.loginButton}>
+        <Button
+          full
+          rounded
+          light
+          style={styles.loginButton}
+          onPress={() => {}}
+          title={""}
+        >
           <Text> Sign Up </Text>
         </Button>
       </Form>
@@ -45,7 +79,19 @@ const styles = StyleSheet.create({
 });
 
 LoginDialog.propTypes = {
-  handleLogin: PropTypes.func.isRequired
+  handleLogin: PropTypes.func.isRequired,
+  loginUser: PropTypes.func
 };
 
-export default LoginDialog;
+const mapStateToProps = state => ({
+  isAuth: state.UserLogin.isAuth
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginUser: (username, password) => dispatch(userLogin(username, password))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginDialog);
