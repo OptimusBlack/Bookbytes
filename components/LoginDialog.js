@@ -13,6 +13,8 @@ class LoginDialog extends Component {
   };
 
   componentWillMount() {
+    // TODO : Logout user if the login screen mounts
+
     this.setState({
       username: "",
       password: ""
@@ -21,7 +23,7 @@ class LoginDialog extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuth) {
-      this.props.handleLogin();
+      nextProps.handleLogin();
     }
   }
 
@@ -84,6 +86,7 @@ LoginDialog.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  username: state.UserLogin.username,
   isAuth: state.UserLogin.isAuth
 });
 
