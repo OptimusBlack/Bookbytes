@@ -1,5 +1,6 @@
+/* global require */
 import React from "react";
-import { TouchableOpacity, DrawerActions, AsyncStorage } from "react-native";
+import { TouchableOpacity, DrawerActions, AsyncStorage, Image, View } from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -7,8 +8,29 @@ import {
 } from "react-navigation";
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
-import { Ionicons } from "@expo/vector-icons";
+import { PropTypes } from "prop-types";
 import Parse from "parse/react-native"
+
+class NavigationDrawerStructure extends React.Component {
+  //Structure for the navigatin Drawer
+  toggleDrawer = () => {
+    //Props to open/close the drawer
+    this.props.navigationProps.toggleDrawer();
+  };
+  render() {
+    return (
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
+          {/*Donute Button Image */}
+          <Image
+            source={require("./assets/menu.png")}
+            style={{ width: 25, height: 25, marginLeft: 5 }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
 
 //Parse config done(based on info from PS folder)
@@ -20,56 +42,42 @@ Parse.setAsyncStorage(AsyncStorage)
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    Login: {
-      screen: Login
-    },
     HomeScreen: {
       screen: HomeScreen
     }
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "HomeScreen",
     drawerWidth: 300
   }
 );
-const DrawerImage = ({ navigation }) => {
-  if (!navigation.state.isDrawerOpen) {
-    return <Ionicons name="bars" />;
-  } else {
-    return <Ionicons name="arrowleft" />;
-  }
-};
 
 const StackNavigator = createStackNavigator(
   {
+    Login: {
+      screen: Login
+    },
     DrawerNavigator: {
-      screen: DrawerNavigator
+      screen: DrawerNavigator,
+      navigationOptions: ({ navigation }) => ({
+        title: "Bookbytes",
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerStyle: {
+          backgroundColor: "#FF9800"
+        },
+        headerTintColor: "#fff"
+      })
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      title: "ReactNavigation",
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-        >
-          <DrawerImage style="styles.bar" navigation={navigation} />
-        </TouchableOpacity>
-      ),
-      headerStyle: {
-        backgroundColor: "#333"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-    })
+    initialRouteName: "Login"
   }
 );
-
 const AppContainer = createAppContainer(StackNavigator);
+
+// App.propTypes = {
+//   navigationProps: PropTypes.object.isRequired
+// };
 
 export default class App extends React.Component {
   render() {
