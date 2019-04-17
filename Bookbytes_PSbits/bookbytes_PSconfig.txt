@@ -1,4 +1,4 @@
-Parse application/dashboard password : deTtJcosGmt1
+Parse application/dashboard password : dETtJcosGmt1
 var api = new ParseServer({
     databaseURI: "mongodb://root:dETtJcosGmt1@127.0.0.1:27017/bitnami_parse",
     cloud: "./node_modules/parse-server/lib/cloud-code/Parse.Cloud.js",

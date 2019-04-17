@@ -1,27 +1,22 @@
-/* global require */
 import React, { Component } from "react";
-import { Image, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Form, Input, Item as FormItem, Label, Button } from "native-base";
 import { PropTypes } from "prop-types";
 
 class LoginDialog extends Component {
   render() {
     return (
-      <Form
-        style={{
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Image source={require("../assets/splash.png")} />
+      <Form>
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Email</Label>
-          <Input />
+          <Input onChangeText={this.props.usernameChange} />
         </FormItem>
-
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Password</Label>
-          <Input secureTextEntry={true} />
+          <Input
+            secureTextEntry={true}
+            onChangeText={this.props.passwordChange}
+          />
         </FormItem>
 
         <Button
@@ -33,7 +28,13 @@ class LoginDialog extends Component {
         >
           <Text> Login </Text>
         </Button>
-        <Button full rounded light style={styles.loginButton}>
+        <Button
+          full
+          rounded
+          light
+          style={styles.loginButton}
+          onPress={this.props.handleSignup}
+        >
           <Text> Sign Up </Text>
         </Button>
       </Form>
