@@ -1,6 +1,5 @@
 /* global require */
 import React from "react";
-import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
 import {
   TouchableOpacity,
   DrawerActions,
@@ -17,6 +16,7 @@ import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
 import Parse from "parse/react-native";
+import { Appbar } from "react-native-paper";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -26,15 +26,16 @@ class NavigationDrawerStructure extends React.Component {
   };
   render() {
     return (
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-          {/*Donute Button Image */}
-          <Image
-            source={require("./assets/menu.png")}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
-          />
-        </TouchableOpacity>
-      </View>
+      <Appbar.Header
+        theme={{
+          colors: {
+            primary: "#FFFFFF"
+          }
+        }}
+      >
+        <Appbar.Action icon="menu" onPress={this.toggleDrawer.bind(this)} />
+        <Appbar.Content title="Bookbytes" />
+      </Appbar.Header>
     );
   }
 }
@@ -52,15 +53,15 @@ Parse.setAsyncStorage(AsyncStorage);
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    HomeScreen: {
+    Home: {
       screen: HomeScreen
     },
-    SettingsScreen: {
+    Settings: {
       screen: Settings
     }
   },
   {
-    initialRouteName: "HomeScreen",
+    initialRouteName: "Home",
     drawerWidth: 300
   }
 );
@@ -74,11 +75,8 @@ const StackNavigator = createStackNavigator(
       screen: DrawerNavigator,
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
-        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
-        // headerStyle: {
-        //   backgroundColor: "#FF9800"
-        // },
-        // headerTintColor: "#fff"
+        header: <NavigationDrawerStructure navigationProps={navigation} />
+
       })
     }
   },
