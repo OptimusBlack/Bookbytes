@@ -1,12 +1,19 @@
+/* global require */
 import React, { Component } from "react";
-import { StyleSheet, Text } from "react-native";
+import { Image, StyleSheet, Text } from "react-native";
 import { Form, Input, Item as FormItem, Label, Button } from "native-base";
 import { PropTypes } from "prop-types";
 
 class LoginDialog extends Component {
   render() {
     return (
-      <Form>
+      <Form
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Image source={require("../assets/splash.png")} />
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Email</Label>
           <Input />

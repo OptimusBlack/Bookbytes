@@ -1,5 +1,6 @@
 /* global require */
 import React from "react";
+import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
 import {
   TouchableOpacity,
   DrawerActions,
@@ -15,8 +16,6 @@ import {
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
-import { Ionicons } from "@expo/vector-icons";
-import { PropTypes } from "prop-types";
 import Parse from "parse/react-native";
 
 class NavigationDrawerStructure extends React.Component {
@@ -75,11 +74,11 @@ const StackNavigator = createStackNavigator(
       screen: DrawerNavigator,
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
-        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-        headerStyle: {
-          backgroundColor: "#FF9800"
-        },
-        headerTintColor: "#fff"
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+        // headerStyle: {
+        //   backgroundColor: "#FF9800"
+        // },
+        // headerTintColor: "#fff"
       })
     }
   },
@@ -88,10 +87,6 @@ const StackNavigator = createStackNavigator(
   }
 );
 const AppContainer = createAppContainer(StackNavigator);
-
-// App.propTypes = {
-//   navigationProps: PropTypes.object.isRequired
-// };
 
 export default class App extends React.Component {
   render() {
