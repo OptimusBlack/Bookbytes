@@ -1,17 +1,30 @@
 import React, { Component } from "react";
 import { Text, StyleSheet } from "react-native";
-import { Form, Input, Item as FormItem, Label, Button } from "native-base";
+import { Form } from "native-base";
+import { TextInput, Button } from "react-native-paper";
 
 class SettingsFields extends Component {
+  state = {
+    text: ""
+  };
+
   render() {
     return (
       <Form style={styles.form}>
-        <Label>Change {this.props.input}</Label>
-        <FormItem>
-          <Input placeholder={"New " + this.props.input} />
-        </FormItem>
-        <Button full light style={styles.button}>
-          <Text>{"Change " + this.props.input}</Text>
+        <TextInput
+          label={"New " + this.props.input}
+          value={this.state.text}
+          onChangeText={text => this.setState({ text })}
+          placeholder={"Type " + this.props.input}
+          mode="outlined"
+        />
+        <Button
+          mode="contained"
+          compact={true}
+          contentStyle={styles.buttonInner}
+          style={styles.button}
+        >
+          {"Change " + this.props.input}
         </Button>
       </Form>
     );
@@ -24,6 +37,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10
+  },
+  buttonInner: {
+    height: 50
   }
 });
 
