@@ -14,7 +14,7 @@ class Login extends React.Component {
    * Function to handle user login. Put login logic here
    */
   handleLogin = () => {
-    this.props.navigation.navigate("HomeScreen");
+    this.props.navigation.navigate("Home");
   };
 
   render() {
