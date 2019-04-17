@@ -2,12 +2,20 @@
 import React from "react";
 import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
 import {
+  TouchableOpacity,
+  DrawerActions,
+  AsyncStorage,
+  Image,
+  View
+} from "react-native";
+import {
   createAppContainer,
   createStackNavigator,
   createDrawerNavigator
 } from "react-navigation";
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
+import Settings from "./screens/Setting";
 import Parse from "parse/react-native";
 
 class NavigationDrawerStructure extends React.Component {
@@ -46,6 +54,9 @@ const DrawerNavigator = createDrawerNavigator(
   {
     HomeScreen: {
       screen: HomeScreen
+    },
+    SettingsScreen: {
+      screen: Settings
     }
   },
   {
