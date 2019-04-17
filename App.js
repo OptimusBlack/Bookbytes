@@ -1,6 +1,6 @@
 /* global require */
 import React from "react";
-import { TouchableOpacity, DrawerActions, AsyncStorage, Image, View } from "react-native";
+import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -8,8 +8,7 @@ import {
 } from "react-navigation";
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
-import { PropTypes } from "prop-types";
-import Parse from "parse/react-native"
+import Parse from "parse/react-native";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -32,13 +31,16 @@ class NavigationDrawerStructure extends React.Component {
   }
 }
 
-
 //Parse config done(based on info from PS folder)
 //Import Parse from "parse/react-native" in other js files to "use" it
 
-Parse.initialize("5874f2274cbb3dc45fc8743b4361871278e0c4c1","","6971ed566bb807cd7b7795dd075ea601b4c41e26")
-Parse.serverURL = "http://18.222.127.61:80/parse"
-Parse.setAsyncStorage(AsyncStorage)
+Parse.initialize(
+  "5874f2274cbb3dc45fc8743b4361871278e0c4c1",
+  "",
+  "6971ed566bb807cd7b7795dd075ea601b4c41e26"
+);
+Parse.serverURL = "http://18.222.127.61:80/parse";
+Parse.setAsyncStorage(AsyncStorage);
 
 const DrawerNavigator = createDrawerNavigator(
   {
@@ -61,11 +63,11 @@ const StackNavigator = createStackNavigator(
       screen: DrawerNavigator,
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
-        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-        headerStyle: {
-          backgroundColor: "#FF9800"
-        },
-        headerTintColor: "#fff"
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+        // headerStyle: {
+        //   backgroundColor: "#FF9800"
+        // },
+        // headerTintColor: "#fff"
       })
     }
   },
@@ -74,10 +76,6 @@ const StackNavigator = createStackNavigator(
   }
 );
 const AppContainer = createAppContainer(StackNavigator);
-
-// App.propTypes = {
-//   navigationProps: PropTypes.object.isRequired
-// };
 
 export default class App extends React.Component {
   render() {
