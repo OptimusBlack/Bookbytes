@@ -9,12 +9,14 @@ class LoginDialog extends Component {
       <Form>
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Email</Label>
-          <Input />
+          <Input onChangeText={this.props.usernameChange} />
         </FormItem>
-
         <FormItem floatingLabel style={styles.formLabels}>
           <Label>Password</Label>
-          <Input secureTextEntry={true} />
+          <Input
+            secureTextEntry={true}
+            onChangeText={this.props.passwordChange}
+          />
         </FormItem>
 
         <Button
@@ -26,7 +28,13 @@ class LoginDialog extends Component {
         >
           <Text> Login </Text>
         </Button>
-        <Button full rounded light style={styles.loginButton}>
+        <Button
+          full
+          rounded
+          light
+          style={styles.loginButton}
+          onPress={this.props.handleSignup}
+        >
           <Text> Sign Up </Text>
         </Button>
       </Form>

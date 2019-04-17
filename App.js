@@ -1,6 +1,12 @@
 /* global require */
 import React from "react";
-import { AsyncStorage } from "react-native";
+import {
+  TouchableOpacity,
+  DrawerActions,
+  AsyncStorage,
+  Image,
+  View
+} from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -70,6 +76,7 @@ const StackNavigator = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
         header: <NavigationDrawerStructure navigationProps={navigation} />
+
       })
     }
   },
@@ -78,10 +85,6 @@ const StackNavigator = createStackNavigator(
   }
 );
 const AppContainer = createAppContainer(StackNavigator);
-
-// App.propTypes = {
-//   navigationProps: PropTypes.object.isRequired
-// };
 
 export default class App extends React.Component {
   render() {
