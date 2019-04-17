@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Container, Content } from "native-base";
 import LoginDialog from "../components/LoginDialog";
 import { PropTypes } from "prop-types";
@@ -25,18 +25,18 @@ class Login extends React.Component {
 
     user.setUsername(this.state.username);
     user.setPassword(this.state.password);
-    //console.log(this.state.username)
-    //console.log(this.state.password)
+    // console.log(this.state.username);
+    // console.log(this.state.password);
     user
       .logIn()
       .then(currentUser => {
-        //console.log("Current users ID = "+currentUser.id)
+        // console.log("Current users ID = " + currentUser.id);
         if (currentUser) {
-          this.props.navigation.navigate("Invitation", { clubID: 1 });
+          this.props.navigation.navigate("Home");
         }
       })
       .catch(err => {
-        //console.log(err.message);
+        // console.log(err.message);
       });
   };
   handleSignup = function() {
@@ -44,18 +44,18 @@ class Login extends React.Component {
 
     user.setUsername(this.state.username);
     user.setPassword(this.state.password);
-    //console.log(this.state.username)
-    //console.log(this.state.password)
+    // console.log(this.state.username);
+    // console.log(this.state.password);
     user
       .signUp()
       .then(currentUser => {
-        //console.log("Current users ID = "+currentUser.id)
+        // console.log("Current users ID = " + currentUser.id);
         if (currentUser) {
-          this.props.navigation.navigate("Invitation", { clubID: 1 });
+          this.props.navigation.navigate("Home");
         }
       })
       .catch(err => {
-        //console.log(err.message);
+        // console.log(err.message);
       });
   };
 
