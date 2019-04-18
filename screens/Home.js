@@ -11,7 +11,8 @@ class BooksRoute extends Component {
 		super(props);
 		this.state = {
 			firstQuery: "",
-			booksData: []
+			booksData: [],
+			scrollIdx: 0
 		};
 	}
 
@@ -30,20 +31,43 @@ class BooksRoute extends Component {
 				this.setState({
 					booksData: responseJson.items
 				});
-				console.log(responseJson);
 			})
 			.catch(error => {
 				console.error(error);
 			});
-		console.log(queryURL);
-		//this.setState({ fetch() });
 	};
+
+	fetchMoreBooks = function () {
+		var newIdx = this.state.scrollIdx + 10;
+		this.setState({
+			scrollIdx: newIdx
+		});
+		var queryURL = "https://www.googleapis.com/books/v1/volumes?";
+		var query = 'q="' + this.state.firstQuery + '"';
+		var type = "&printType=books";
+		var lang = '&langRestrict="en"';
+		var startIdx = '&startIndex=' + newIdx;
+
+		queryURL += query + type + lang + startIdx;
+
+		fetch(queryURL)
+			.then(response => response.json())
+			.then(responseJson => {
+				this.setState({
+					booksData: this.state.booksData.concat(responseJson.items)
+				});
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
 
 	componentDidMount() {
 		this.fetchBooks();
 	}
 
 	handleSearch = () => {
+		this.scrollViewRef.scrollTo({ x: 0, y: 0, animated: true });
 		this.fetchBooks();
 		//console.log(this.state.booksData);
 	}
@@ -62,7 +86,7 @@ class BooksRoute extends Component {
 						onSubmitEditing={this.handleSearch}
 					/>
 				</View>
-				<ScrollView style={{ marginBottom: 90 }}>
+				<ScrollView ref={(ref) => {this.scrollViewRef = ref;}} style={{ marginBottom: 90 }} onMomentumScrollEnd={this.fetchMoreBooks.bind(this)} >
 					{this.state.booksData.map(book => {
 						return <Book book={book} />;
 					})}
@@ -72,9 +96,12 @@ class BooksRoute extends Component {
 	}
 }
 class ClubsRoute extends Component {
-	state = {
-		firstQuery: ""
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			firstQuery: ""
+		}
+	}
 	render() {
 		const { firstQuery } = this.state;
 		return (
@@ -92,13 +119,16 @@ class ClubsRoute extends Component {
 }
 
 class HomeScreen extends Component {
-	state = {
-		index: 0,
-		routes: [
-			{ key: "books", title: "Books", icon: "book" },
-			{ key: "clubs", title: "Clubs", icon: "people" }
-		]
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			index: 0,
+			routes: [
+				{ key: "books", title: "Books", icon: "book" },
+				{ key: "clubs", title: "Clubs", icon: "people" }
+			]
+		};
+	}
 
 	_handleIndexChange = index => this.setState({ index });
 

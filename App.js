@@ -74,7 +74,7 @@ const StackNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: "DrawerNavigator"
+    initialRouteName: "Login"
   }
 );
 const AppContainer = createAppContainer(StackNavigator);
