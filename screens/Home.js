@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { Searchbar, BottomNavigation } from "react-native-paper";
 import { View } from "native-base";
 import Book from "../components/Book";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 
 class BooksRoute extends Component {
 	constructor(props) {
@@ -14,6 +14,7 @@ class BooksRoute extends Component {
 			booksData: [],
 			scrollIdx: 0
 		};
+		this.flatListRef = React.createRef();
 	}
 
 	fetchBooks = function () {
@@ -67,7 +68,7 @@ class BooksRoute extends Component {
 	}
 
 	handleSearch = () => {
-		this.scrollViewRef.scrollTo({ x: 0, y: 0, animated: true });
+		//console.log(this.flatListRef)
 		this.fetchBooks();
 		//console.log(this.state.booksData);
 	}
@@ -86,11 +87,13 @@ class BooksRoute extends Component {
 						onSubmitEditing={this.handleSearch}
 					/>
 				</View>
-				<ScrollView ref={(ref) => {this.scrollViewRef = ref;}} style={{ marginBottom: 90 }} onMomentumScrollEnd={this.fetchMoreBooks.bind(this)} >
-					{this.state.booksData.map(book => {
-						return <Book book={book} />;
-					})}
-				</ScrollView>
+				<FlatList
+					ref={this.flatListRef}
+					data={this.state.booksData}
+					renderItem={({item}) => <Book book={item} />}
+					style={{ marginBottom: 90 }}
+					onEndReached={this.fetchMoreBooks.bind(this)}
+				/>
 			</View>
 		);
 	}

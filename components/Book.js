@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card } from "react-native-paper";
 import { StyleSheet, Text } from "react-native";
 
-class Book extends Component {
+class Book extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
