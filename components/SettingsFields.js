@@ -1,25 +1,21 @@
 import React, { Component } from "react";
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Form } from "native-base";
 import { TextInput, Button } from "react-native-paper";
 
 class SettingsFields extends Component {
-  state = {
-    text: ""
-  };
-
   render() {
     return (
       <Form style={styles.form}>
         <TextInput
           label={"New " + this.props.input}
-          value={this.state.text}
-          onChangeText={text => this.setState({ text })}
+          onChangeText={this.props.textDetails}
           placeholder={"Type " + this.props.input}
           mode="outlined"
         />
         <Button
           mode="contained"
+          onPress={this.props.changeDetails}
           compact={true}
           contentStyle={styles.buttonInner}
           style={styles.button}
