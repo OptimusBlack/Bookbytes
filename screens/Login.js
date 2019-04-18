@@ -5,11 +5,6 @@ import LoginDialog from "../components/LoginDialog";
 import { PropTypes } from "prop-types";
 import Parse from "parse/react-native";
 class Login extends React.Component {
-  state = {
-    username: "",
-    password: ""
-  };
-
   /**
    * Function to handle user login. Put login logic here
    */

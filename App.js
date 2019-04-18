@@ -12,6 +12,9 @@ import {
   createStackNavigator,
   createDrawerNavigator
 } from "react-navigation";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
@@ -76,7 +79,6 @@ const StackNavigator = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
         header: <NavigationDrawerStructure navigationProps={navigation} />
-
       })
     }
   },
@@ -88,6 +90,10 @@ const AppContainer = createAppContainer(StackNavigator);
 
 export default class App extends React.Component {
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    );
   }
 }
