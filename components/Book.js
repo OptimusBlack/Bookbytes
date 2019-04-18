@@ -6,10 +6,7 @@ class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: this.props.book,
-      title: this.props.book.volumeInfo.title,
-      authors: this.props.book.volumeInfo.authors,
-      thumbnail: this.props.book.volumeInfo.imageLinks.smallThumbnail
+      book: this.props.book
     };
   }
   render() {
@@ -18,12 +15,12 @@ class Book extends Component {
         <Card.Title
           title={this.props.book.volumeInfo.title}
           subtitle={
-            this.state.authors != null ? this.state.authors.join(", ") : "..."
+            this.props.book.volumeInfo.authors != null ? this.props.book.volumeInfo.authors.join(", ") : "..."
           }
           left={props => (
             <Card.Cover
               {...props}
-              source={{ uri: this.state.thumbnail }}
+              source={{ uri: this.props.book.volumeInfo.imageLinks != null ? this.props.book.volumeInfo.imageLinks.smallThumbnail : "https://vignette.wikia.nocookie.net/marveldatabase/images/3/3f/No_Image_Cover.jpg" }}
               style={styles.cardCover}
             />
           )}

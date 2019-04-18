@@ -7,120 +7,126 @@ import Book from "../components/Book";
 import { ScrollView } from "react-native-gesture-handler";
 
 class BooksRoute extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstQuery: "",
-      booksData: []
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			firstQuery: "",
+			booksData: []
+		};
+	}
 
-  fetchBooks = function() {
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?";
-    var query = 'q="' + '"';
-    var type = "&printType=books";
-    var lang = '&langRestrict="en"';
-    //var filter = '&filter=full';
+	fetchBooks = function () {
+		var queryURL = "https://www.googleapis.com/books/v1/volumes?";
+		var query = 'q="' + this.state.firstQuery + '"';
+		var type = "&printType=books";
+		var lang = '&langRestrict="en"';
+		//var filter = '&filter=full';
 
-    queryURL += query + type + lang;
+		queryURL += query + type + lang;
 
-    fetch(queryURL)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          booksData: responseJson.items
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    console.log(queryURL);
-    //this.setState({ fetch() });
-  };
+		fetch(queryURL)
+			.then(response => response.json())
+			.then(responseJson => {
+				this.setState({
+					booksData: responseJson.items
+				});
+				console.log(responseJson);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+		console.log(queryURL);
+		//this.setState({ fetch() });
+	};
 
-  componentDidMount() {
-    this.fetchBooks();
-  }
+	componentDidMount() {
+		this.fetchBooks();
+	}
 
-  render() {
-    const { firstQuery } = this.state;
-    return (
-      <View>
-        <View style={styles.searchBar}>
-          <Searchbar
-            placeholder="Search books"
-            onChangeText={query => {
-              this.setState({ firstQuery: query });
-            }}
-            value={firstQuery}
-          />
-        </View>
-        <ScrollView style={{ marginBottom: 90 }}>
-          {this.state.booksData.map((key, book) => {
-            return <Book key={key} book={book} />;
-          })}
-        </ScrollView>
-      </View>
-    );
-  }
+	handleSearch = () => {
+		this.fetchBooks();
+		//console.log(this.state.booksData);
+	}
+
+	render() {
+		const { firstQuery } = this.state;
+		return (
+			<View>
+				<View style={styles.searchBar}>
+					<Searchbar
+						placeholder="Search books"
+						onChangeText={query => {
+							this.setState({ firstQuery: query });
+						}}
+						value={firstQuery}
+						onSubmitEditing={this.handleSearch}
+					/>
+				</View>
+				<ScrollView style={{ marginBottom: 90 }}>
+					{this.state.booksData.map(book => {
+						return <Book book={book} />;
+					})}
+				</ScrollView>
+			</View>
+		);
+	}
 }
-
 class ClubsRoute extends Component {
-  state = {
-    firstQuery: ""
-  };
-  render() {
-    const { firstQuery } = this.state;
-    return (
-      <View style={styles.searchBar}>
-        <Searchbar
-          placeholder="Search clubs"
-          onChangeText={query => {
-            this.setState({ firstQuery: query });
-          }}
-          value={firstQuery}
-        />
-      </View>
-    );
-  }
+	state = {
+		firstQuery: ""
+	};
+	render() {
+		const { firstQuery } = this.state;
+		return (
+			<View style={styles.searchBar}>
+				<Searchbar
+					placeholder="Search clubs"
+					onChangeText={query => {
+						this.setState({ firstQuery: query });
+					}}
+					value={firstQuery}
+				/>
+			</View>
+		);
+	}
 }
 
 class HomeScreen extends Component {
-  state = {
-    index: 0,
-    routes: [
-      { key: "books", title: "Books", icon: "book" },
-      { key: "clubs", title: "Clubs", icon: "people" }
-    ]
-  };
+	state = {
+		index: 0,
+		routes: [
+			{ key: "books", title: "Books", icon: "book" },
+			{ key: "clubs", title: "Clubs", icon: "people" }
+		]
+	};
 
-  _handleIndexChange = index => this.setState({ index });
+	_handleIndexChange = index => this.setState({ index });
 
-  _renderScene = BottomNavigation.SceneMap({
-    books: BooksRoute,
-    clubs: ClubsRoute
-  });
+	_renderScene = BottomNavigation.SceneMap({
+		books: BooksRoute,
+		clubs: ClubsRoute
+	});
 
-  render() {
-    return (
-      <BottomNavigation
-        theme={{
-          colors: {
-            primary: "#FFFFFF"
-          }
-        }}
-        navigationState={this.state}
-        onIndexChange={this._handleIndexChange}
-        renderScene={this._renderScene}
-      />
-    );
-  }
+	render() {
+		return (
+			<BottomNavigation
+				theme={{
+					colors: {
+						primary: "#FFFFFF"
+					}
+				}}
+				navigationState={this.state}
+				onIndexChange={this._handleIndexChange}
+				renderScene={this._renderScene}
+			/>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  searchBar: {
-    padding: 20
-  }
+	searchBar: {
+		padding: 20
+	}
 });
 
 export default HomeScreen;
