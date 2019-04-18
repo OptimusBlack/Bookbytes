@@ -1,6 +1,10 @@
-const USER_LOGIN = "USER_LOGIN";
+import actions from "./constants";
 
-export const userLogin = (username, password) => ({
-  type: USER_LOGIN,
+let login = (username, password) => ({
+  type: actions.USER_LOGIN_REQUEST,
   payload: { username: username, password: password }
 });
+
+export const userActions = {
+  login
+};
