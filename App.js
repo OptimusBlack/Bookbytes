@@ -1,12 +1,6 @@
 /* global require */
 import React from "react";
-import {
-  TouchableOpacity,
-  DrawerActions,
-  AsyncStorage,
-  Image,
-  View
-} from "react-native";
+import { AsyncStorage } from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -76,12 +70,11 @@ const StackNavigator = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Bookbytes",
         header: <NavigationDrawerStructure navigationProps={navigation} />
-
       })
     }
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "DrawerNavigator"
   }
 );
 const AppContainer = createAppContainer(StackNavigator);

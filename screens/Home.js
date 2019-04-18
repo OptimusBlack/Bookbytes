@@ -1,23 +1,65 @@
+/* global fetch, console */
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Searchbar, BottomNavigation } from "react-native-paper";
 import { View } from "native-base";
+import Book from "../components/Book";
+import { ScrollView } from "react-native-gesture-handler";
 
 class BooksRoute extends Component {
-  state = {
-    firstQuery: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstQuery: "",
+      booksData: []
+    };
+  }
+
+  fetchBooks = function() {
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?";
+    var query = 'q="' + '"';
+    var type = "&printType=books";
+    var lang = '&langRestrict="en"';
+    //var filter = '&filter=full';
+
+    queryURL += query + type + lang;
+
+    fetch(queryURL)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          booksData: responseJson.items
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    console.log(queryURL);
+    //this.setState({ fetch() });
   };
+
+  componentDidMount() {
+    this.fetchBooks();
+  }
+
   render() {
     const { firstQuery } = this.state;
     return (
-      <View style={styles.searchBar}>
-        <Searchbar
-          placeholder="Search books"
-          onChangeText={query => {
-            this.setState({ firstQuery: query });
-          }}
-          value={firstQuery}
-        />
+      <View>
+        <View style={styles.searchBar}>
+          <Searchbar
+            placeholder="Search books"
+            onChangeText={query => {
+              this.setState({ firstQuery: query });
+            }}
+            value={firstQuery}
+          />
+        </View>
+        <ScrollView style={{ marginBottom: 90 }}>
+          {this.state.booksData.map((key, book) => {
+            return <Book key={key} book={book} />;
+          })}
+        </ScrollView>
       </View>
     );
   }
