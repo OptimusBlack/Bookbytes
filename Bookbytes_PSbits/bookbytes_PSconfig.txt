@@ -1,0 +1,9 @@
+Parse application/dashboard password : dETtJcosGmt1
+var api = new ParseServer({
+    databaseURI: "mongodb://root:dETtJcosGmt1@127.0.0.1:27017/bitnami_parse",
+    cloud: "./node_modules/parse-server/lib/cloud-code/Parse.Cloud.js",
+    appId: "5874f2274cbb3dc45fc8743b4361871278e0c4c1",
+    masterKey: "6971ed566bb807cd7b7795dd075ea601b4c41e26",
+    fileKey: "f8bce250a5074efeb1f6cb2014ceed9eaf81d591",
+    serverURL: "http://18.222.127.61:80/parse"
+});

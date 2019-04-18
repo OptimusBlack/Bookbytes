@@ -1,5 +1,12 @@
+/* global require */
 import React from "react";
-import { TouchableOpacity, DrawerActions } from "react-native";
+import {
+  TouchableOpacity,
+  DrawerActions,
+  AsyncStorage,
+  Image,
+  View
+} from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -10,59 +17,75 @@ import store from "./redux/store";
 
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
-import { Ionicons } from "@expo/vector-icons";
+import Settings from "./screens/Setting";
+import Parse from "parse/react-native";
+import { Appbar } from "react-native-paper";
+
+class NavigationDrawerStructure extends React.Component {
+  //Structure for the navigatin Drawer
+  toggleDrawer = () => {
+    //Props to open/close the drawer
+    this.props.navigationProps.toggleDrawer();
+  };
+  render() {
+    return (
+      <Appbar.Header
+        theme={{
+          colors: {
+            primary: "#FFFFFF"
+          }
+        }}
+      >
+        <Appbar.Action icon="menu" onPress={this.toggleDrawer.bind(this)} />
+        <Appbar.Content title="Bookbytes" />
+      </Appbar.Header>
+    );
+  }
+}
+
+//Parse config done(based on info from PS folder)
+//Import Parse from "parse/react-native" in other js files to "use" it
+
+Parse.initialize(
+  "5874f2274cbb3dc45fc8743b4361871278e0c4c1",
+  "",
+  "6971ed566bb807cd7b7795dd075ea601b4c41e26"
+);
+Parse.serverURL = "http://18.222.127.61:80/parse";
+Parse.setAsyncStorage(AsyncStorage);
 
 const DrawerNavigator = createDrawerNavigator(
+  {
+    Home: {
+      screen: HomeScreen
+    },
+    Settings: {
+      screen: Settings
+    }
+  },
+  {
+    initialRouteName: "Home",
+    drawerWidth: 300
+  }
+);
+
+const StackNavigator = createStackNavigator(
   {
     Login: {
       screen: Login
     },
-    HomeScreen: {
-      screen: HomeScreen
-    }
-  },
-  {
-    initialRouteName: "Login",
-    drawerWidth: 300
-  }
-);
-const DrawerImage = ({ navigation }) => {
-  if (!navigation.state.isDrawerOpen) {
-    return <Ionicons name="bars" />;
-  } else {
-    return <Ionicons name="arrowleft" />;
-  }
-};
-
-const StackNavigator = createStackNavigator(
-  {
     DrawerNavigator: {
-      screen: DrawerNavigator
+      screen: DrawerNavigator,
+      navigationOptions: ({ navigation }) => ({
+        title: "Bookbytes",
+        header: <NavigationDrawerStructure navigationProps={navigation} />
+      })
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      title: "ReactNavigation",
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-        >
-          <DrawerImage style="styles.bar" navigation={navigation} />
-        </TouchableOpacity>
-      ),
-      headerStyle: {
-        backgroundColor: "#333"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-    })
+    initialRouteName: "Login"
   }
 );
-
 const AppContainer = createAppContainer(StackNavigator);
 
 export default class App extends React.Component {

@@ -60,8 +60,7 @@ class LoginDialog extends Component {
           rounded
           light
           style={styles.loginButton}
-          onPress={() => {}}
-          title={""}
+          onPress={this.props.handleSignup}
         >
           <Text> Sign Up </Text>
         </Button>
