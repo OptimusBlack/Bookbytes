@@ -1,10 +1,9 @@
 /* global fetch, console */
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { Searchbar, BottomNavigation } from "react-native-paper";
 import { View } from "native-base";
 import Book from "../components/Book";
-import { FlatList } from "react-native-gesture-handler";
 
 class BooksRoute extends Component {
 	constructor(props) {
@@ -68,9 +67,8 @@ class BooksRoute extends Component {
 	}
 
 	handleSearch = () => {
-		//console.log(this.flatListRef)
+		this.flatListRef.scrollToOffset({offset: 0});
 		this.fetchBooks();
-		//console.log(this.state.booksData);
 	}
 
 	render() {
@@ -88,7 +86,7 @@ class BooksRoute extends Component {
 					/>
 				</View>
 				<FlatList
-					ref={this.flatListRef}
+					ref={(ref) => { this.flatListRef = ref }}
 					data={this.state.booksData}
 					renderItem={({item}) => <Book book={item} />}
 					style={{ marginBottom: 90 }}
