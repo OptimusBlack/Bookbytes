@@ -5,6 +5,10 @@ import ThreadTile from "../components/ThreadTile";
 import { Card } from "react-native-paper";
 
 class ThreadList extends Component {
+  /**
+   * Thread list for a club. Please navigate with the parameter: club_id
+   * @type {{club_id: string, threads: Array, loading: boolean, club_title: string}}
+   */
   state = {
     club_id: "",
     club_title: "",
@@ -47,6 +51,7 @@ class ThreadList extends Component {
   };
 
   render() {
+    // TODO: Change card title to the name of the club
     return (
       <View>
         <Card>
