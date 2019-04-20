@@ -8,12 +8,22 @@ class SettingsFields extends Component {
     return (
       <Form style={styles.form}>
         <TextInput
+          theme={{
+            colors: {
+              primary: "#FFFFFF"
+            }
+          }}
           label={"New " + this.props.input}
           onChangeText={this.props.textDetails}
           placeholder={"Type " + this.props.input}
           mode="outlined"
         />
         <Button
+          theme={{
+            colors: {
+              primary: "#FFFFFF"
+            }
+          }}
           mode="contained"
           onPress={this.props.changeDetails}
           compact={true}

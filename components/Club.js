@@ -3,11 +3,11 @@ import { Card } from "react-native-paper";
 import { StyleSheet, Text } from "react-native";
 import { PropTypes } from "prop-types";
 
-class ThreadTile extends React.PureComponent {
+class Club extends React.PureComponent {
   state = {
     title: this.props.item.title,
     description: this.props.item.description,
-    comments: this.props.item.commentIds.length
+    comments: this.props.item.threadIds.length
   };
 
   render() {
@@ -18,7 +18,7 @@ class ThreadTile extends React.PureComponent {
           subtitle={this.state.description}
         />
         <Card.Content>
-          <Text>{`${this.state.comments} comments`}</Text>
+          <Text>{`${this.state.comments} threads`}</Text>
         </Card.Content>
       </Card>
     );
@@ -42,8 +42,4 @@ const styles = StyleSheet.create({
   }
 });
 
-ThreadTile.propTypes = {
-  item: PropTypes.object.isRequired
-};
-
-export default ThreadTile;
+export default Club;
