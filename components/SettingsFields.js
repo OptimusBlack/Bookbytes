@@ -10,12 +10,12 @@ class SettingsFields extends Component {
         <TextInput
           theme={{
             colors: {
-              primary: "#FFFFFF"
+              primary: "#000"
             }
           }}
           label={"New " + this.props.input}
           onChangeText={this.props.textDetails}
-          placeholder={"Type " + this.props.input}
+          placeholder={"Type the new " + this.props.input + " here"}
           mode="outlined"
         />
         <Button
