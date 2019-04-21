@@ -6,6 +6,7 @@ import {
   createDrawerNavigator
 } from "react-navigation";
 import Login from "./screens/Login";
+import ToRead from "./screens/ToRead";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
 import Parse from "parse/react-native";
@@ -64,6 +65,9 @@ const StackNavigator = createStackNavigator(
   {
     Login: {
       screen: Login
+    },
+    ToRead: {
+      screen: ToRead
     },
     DrawerNavigator: {
       screen: DrawerNavigator,

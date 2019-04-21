@@ -29,7 +29,7 @@ class ClubsRoute extends Component {
    * Retrieve current clubs created by the user as well as the ones
    * he is  member of.
    */
-  componentWillMount() {
+  componentDidMount() {
     let currentUser = Parse.User.current();
     // Fetch Clubs
     this.fetchClubs(currentUser).then(clubs => {
@@ -52,12 +52,12 @@ class ClubsRoute extends Component {
     });
   };
 
-  searchClubs = () => {
+  searchClubs = async () => {
     const club_class_object = Parse.Object.extend("Clubs");
     const query = new Parse.Query(club_class_object);
     query.fullText("title", this.state.firstQuery);
     query.limit(10);
-    return query
+    return await query
       .find()
       .then(result => {
         return result;
@@ -67,7 +67,7 @@ class ClubsRoute extends Component {
       });
   };
 
-  handleClubSearch() {
+  handleClubSearch = () => {
     if (this.state.firstQuery === "") {
       let currentUser = Parse.User.current();
       this.fetchClubs(currentUser).then(clubs => {
@@ -90,11 +90,13 @@ class ClubsRoute extends Component {
           //console.log("Error " + err.code + ": " + err.message);
         });
     }
-  }
+  };
 
   handleSearch = () => {
     this.flatListRef.scrollToOffset({ offset: 0 });
-    //console.log(this.state.firstQuery);
+    this.setState({
+      clubData: []
+    });
     this.handleClubSearch();
   };
 
