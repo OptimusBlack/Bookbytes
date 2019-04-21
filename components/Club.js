@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "react-native-paper";
 import { StyleSheet, Text } from "react-native";
 
@@ -6,7 +6,8 @@ class Club extends React.PureComponent {
   state = {
     title: this.props.item.title,
     description: this.props.item.description,
-    comments: this.props.item.threadIds.length,
+    comments:
+      this.props.item.threadIds != null ? this.props.item.threadIds.length : 0,
     club_id: this.props.item.objectId
   };
 

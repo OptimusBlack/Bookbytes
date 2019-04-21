@@ -13,7 +13,6 @@ import Parse from "parse/react-native";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
 import Thread from "./screens/Thread";
-import Club from "./screens/NewClub";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -91,14 +90,6 @@ const StackNavigator = createStackNavigator(
       navigationOptions: props => {
         return {
           title: "Threads"
-        };
-      }
-    },
-    CreateClub: {
-      screen: Club,
-      navigationOptions: props => {
-        return {
-          title: "Create Club"
         };
       }
     }

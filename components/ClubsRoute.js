@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Modal } from "react-native";
 import { Parse } from "parse/lib/react-native/Parse";
 import { View } from "native-base";
-import { Searchbar, FAB } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
+import ActionButton from "react-native-action-button";
 import { withNavigation } from "react-navigation";
 import Club from "./Club";
+import CreateClub from "../components/ClubsDialog";
 
 class ClubsRoute extends Component {
   constructor(props) {
@@ -12,7 +14,9 @@ class ClubsRoute extends Component {
     this.state = {
       firstQuery: "",
       user: "",
-      clubData: []
+      clubData: [],
+      loading: true,
+      modalVisible: false
     };
   }
 
@@ -36,7 +40,8 @@ class ClubsRoute extends Component {
       clubs = JSON.parse(JSON.stringify(clubs));
       this.setState({
         user: currentUser.id,
-        clubData: clubs
+        clubData: clubs,
+        loading: false
       });
     });
   }
@@ -100,6 +105,22 @@ class ClubsRoute extends Component {
     this.handleClubSearch();
   };
 
+  addClub = async () => {
+    const currentUser = Parse.User.current();
+    const club_class_object = Parse.Object.extend("Clubs");
+    const query = new Parse.Query(club_class_object);
+    query.equalTo("userIds", currentUser.id);
+    //console.log("Thissss" + currentUser.id);
+    query.limit(10);
+    return await query.find().then(clubs => {
+      clubs = JSON.parse(JSON.stringify(clubs));
+      this.setState({
+        user: currentUser.id,
+        clubData: clubs
+      });
+    });
+  };
+
   navigateToClub = clubId => {
     this.props.navigation.navigate("Threads", { club_id: clubId });
   };
@@ -107,7 +128,25 @@ class ClubsRoute extends Component {
   render() {
     const { firstQuery } = this.state;
     return (
-      <View>
+      <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          presentationStyle={"pageSheet"}
+          onRequestClose={() => {
+            this.setState({
+              modalVisible: false
+            });
+          }}
+        >
+          <CreateClub
+            requestClose={() => {
+              this.setState({ modalVisible: false });
+            }}
+            addToClub={this.addClub.bind(this)}
+          />
+        </Modal>
         <View style={styles.searchBar}>
           <Searchbar
             placeholder="Search clubs"
@@ -131,16 +170,12 @@ class ClubsRoute extends Component {
             style={{ marginBottom: 90 }}
           />
         </View>
-        <FAB
-          theme={{
-            colors: {
-              primary: "#FFFFFF"
-            }
-          }}
-          onPress={() => this.props.navigation.navigate("CreateClub")}
+        <ActionButton
           style={styles.fab}
-          small
-          icon="add"
+          buttonColor="rgba(231,76,60,1)"
+          onPress={() => {
+            this.setState({ modalVisible: true });
+          }}
         />
       </View>
     );
@@ -151,9 +186,12 @@ const styles = StyleSheet.create({
   searchBar: {
     padding: 20
   },
+  container: {
+    flex: 1
+  },
   fab: {
     position: "absolute",
-    margin: 16,
+    // margin: 16,
     right: 0,
     bottom: 0
   }
