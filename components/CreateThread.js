@@ -70,6 +70,16 @@ class CreateThread extends Component {
           >
             Create
           </Button>
+          <Button
+            theme={themes.button}
+            mode="contained"
+            onPress={this.props.requestClose}
+            compact={true}
+            contentStyle={styles.buttonInner}
+            style={styles.button}
+          >
+            Close
+          </Button>
         </Form>
       </View>
     );
