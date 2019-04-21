@@ -20,6 +20,7 @@ class LoginDialog extends Component {
         </FormItem>
 
         <Button
+          uth="DO IT!"
           full
           rounded
           light
