@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { Parse } from "parse/lib/react-native/Parse";
 import { View } from "native-base";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, FAB } from "react-native-paper";
 import { withNavigation } from "react-navigation";
 import Club from "./Club";
 
@@ -19,10 +19,10 @@ class ClubsRoute extends Component {
   /**
    * For debugging data received.
    */
-  // componentDidUpdate(){
+
+  // componentWillUpdate(){
   // 	console.log("Test Results");
   // 	console.log(this.state.clubData);
-  // 	console.log(this.state.user);
   // }
 
   /**
@@ -118,16 +118,29 @@ class ClubsRoute extends Component {
             onSubmitEditing={this.handleSearch}
           />
         </View>
-        <FlatList
-          ref={ref => {
-            this.flatListRef = ref;
+        <View style={{ minHeight: "85%" }}>
+          <FlatList
+            ref={ref => {
+              this.flatListRef = ref;
+            }}
+            data={this.state.clubData}
+            renderItem={({ item }) => (
+              <Club item={item} navigateToClub={this.navigateToClub} />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            style={{ marginBottom: 90 }}
+          />
+        </View>
+        <FAB
+          theme={{
+            colors: {
+              primary: "#FFFFFF"
+            }
           }}
-          data={this.state.clubData}
-          renderItem={({ item }) => (
-            <Club item={item} navigateToClub={this.navigateToClub} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          style={{ marginBottom: 90 }}
+          onPress={() => this.props.navigation.navigate("CreateClub")}
+          style={styles.fab}
+          small
+          icon="add"
         />
       </View>
     );
@@ -137,6 +150,12 @@ class ClubsRoute extends Component {
 const styles = StyleSheet.create({
   searchBar: {
     padding: 20
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0
   }
 });
 

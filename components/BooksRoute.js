@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { View } from "native-base";
 import { Searchbar } from "react-native-paper";
+import { withNavigation } from "react-navigation";
 import Book from "./Book";
 
 class BooksRoute extends Component {
@@ -106,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BooksRoute;
+export default withNavigation(BooksRoute);
