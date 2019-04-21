@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import { Parse } from "parse/react-native";
 import ThreadTile from "../components/ThreadTile";
 import { Card } from "react-native-paper";
@@ -12,6 +12,7 @@ class ThreadList extends Component {
   state = {
     club_id: "",
     club_title: "",
+    club_description: "",
     threads: [],
     loading: true
   };
@@ -45,7 +46,8 @@ class ThreadList extends Component {
       const thread_query = new Parse.Query(thread_class_object);
 
       this.setState({
-        club_title: club_object.title
+        club_title: club_object.title,
+        club_description: club_object.description
       });
 
       thread_query.containedIn("objectId", club_object.threadIds);
@@ -60,6 +62,9 @@ class ThreadList extends Component {
       <View>
         <Card>
           <Card.Title title={this.state.club_title} />
+          <Card.Content>
+            <Text>{this.state.club_description}</Text>
+          </Card.Content>
         </Card>
         <FlatList
           ref={ref => {

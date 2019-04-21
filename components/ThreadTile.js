@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card } from "react-native-paper";
 import { StyleSheet, Text } from "react-native";
 import { PropTypes } from "prop-types";
+import { withNavigation } from "react-navigation";
 
 class ThreadTile extends React.PureComponent {
   state = {
@@ -10,9 +11,19 @@ class ThreadTile extends React.PureComponent {
     comments: this.props.item.commentIds.length
   };
 
+  navigateToThread = () => {
+    this.props.navigation.navigate("Thread", {
+      thread: this.props.item
+    });
+  };
+
   render() {
     return (
-      <Card key={this.props.item.objectId} style={styles.card}>
+      <Card
+        key={this.props.item.objectId}
+        style={styles.card}
+        onPress={this.navigateToThread}
+      >
         <Card.Title
           title={this.state.title}
           subtitle={this.state.description}
@@ -46,4 +57,4 @@ ThreadTile.propTypes = {
   item: PropTypes.object.isRequired
 };
 
-export default ThreadTile;
+export default withNavigation(ThreadTile);

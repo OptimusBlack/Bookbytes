@@ -12,6 +12,7 @@ import Settings from "./screens/Setting";
 import Parse from "parse/react-native";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
+import Thread from "./screens/Thread";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -80,7 +81,15 @@ const StackNavigator = createStackNavigator(
       screen: ThreadList,
       navigationOptions: props => {
         return {
-          title: "Bookbytes"
+          title: "Threads"
+        };
+      }
+    },
+    Thread: {
+      screen: Thread,
+      navigationOptions: props => {
+        return {
+          title: "Threads"
         };
       }
     }
