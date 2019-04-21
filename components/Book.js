@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card } from "react-native-paper";
 import { StyleSheet, Text } from "react-native";
 
-class Book extends React.PureComponent {
+class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,12 +15,19 @@ class Book extends React.PureComponent {
         <Card.Title
           title={this.props.book.volumeInfo.title}
           subtitle={
-            this.props.book.volumeInfo.authors != null ? this.props.book.volumeInfo.authors.join(", ") : "..."
+            this.props.book.volumeInfo.authors != null
+              ? this.props.book.volumeInfo.authors.join(", ")
+              : "..."
           }
           left={props => (
             <Card.Cover
               {...props}
-              source={{ uri: this.props.book.volumeInfo.imageLinks != null ? this.props.book.volumeInfo.imageLinks.smallThumbnail : "https://vignette.wikia.nocookie.net/marveldatabase/images/3/3f/No_Image_Cover.jpg" }}
+              source={{
+                uri:
+                  this.props.book.volumeInfo.imageLinks != null
+                    ? this.props.book.volumeInfo.imageLinks.smallThumbnail
+                    : "https://vignette.wikia.nocookie.net/marveldatabase/images/3/3f/No_Image_Cover.jpg"
+              }}
               style={styles.cardCover}
             />
           )}
