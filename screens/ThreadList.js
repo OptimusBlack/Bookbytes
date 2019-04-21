@@ -43,6 +43,11 @@ class ThreadList extends Component {
     return await query.find().then(async result => {
       const club_object = JSON.parse(JSON.stringify(result[0]));
       const thread_query = new Parse.Query(thread_class_object);
+
+      this.setState({
+        club_title: club_object.title
+      });
+
       thread_query.containedIn("objectId", club_object.threadIds);
       return await thread_query.find().then(results => {
         return results;
@@ -51,11 +56,10 @@ class ThreadList extends Component {
   };
 
   render() {
-    // TODO: Change card title to the name of the club
     return (
       <View>
         <Card>
-          <Card.Title title={this.state.club_id} />
+          <Card.Title title={this.state.club_title} />
         </Card>
         <FlatList
           ref={ref => {
