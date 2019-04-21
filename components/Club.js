@@ -7,12 +7,19 @@ class Club extends React.PureComponent {
   state = {
     title: this.props.item.title,
     description: this.props.item.description,
-    comments: this.props.item.threadIds.length
+    comments: this.props.item.threadIds.length,
+    club_id: this.props.item.objectId
   };
 
   render() {
     return (
-      <Card key={this.props.item.objectId} style={styles.card}>
+      <Card
+        key={this.props.item.objectId}
+        style={styles.card}
+        onPress={() => {
+          this.props.navigateToClub(this.state.club_id);
+        }}
+      >
         <Card.Title
           title={this.state.title}
           subtitle={this.state.description}
