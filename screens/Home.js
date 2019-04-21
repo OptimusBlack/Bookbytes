@@ -1,11 +1,12 @@
 /* global fetch, console */
 import React, { Component } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, ScrollView } from "react-native";
 import { Searchbar, BottomNavigation } from "react-native-paper";
 import { View } from "native-base";
 import { Parse, User } from "parse/react-native";
 import Book from "../components/Book";
 import Club from "../components/Club";
+import Parse from "parse/react-native";
 
 class BooksRoute extends Component {
   constructor(props) {
@@ -123,7 +124,7 @@ class ClubsRoute extends Component {
    * Retrieve current clubs created by the user as well as the ones
    * he is  member of.
    */
-  componentWillMount() {
+  componentDidMount() {
     let currentUser = Parse.User.current();
     // Fetch Clubs
     this.fetchClubs(currentUser).then(clubs => {
@@ -146,12 +147,12 @@ class ClubsRoute extends Component {
     });
   };
 
-  searchClubs = () => {
+  searchClubs = async () => {
     const club_class_object = Parse.Object.extend("Clubs");
     const query = new Parse.Query(club_class_object);
     query.fullText("title", this.state.firstQuery);
     query.limit(10);
-    return query
+    return await query
       .find()
       .then(result => {
         return result;
@@ -175,7 +176,6 @@ class ClubsRoute extends Component {
       this.searchClubs()
         .then(clubs => {
           clubs = JSON.parse(JSON.stringify(clubs));
-          console.log(clubs);
           this.setState({
             clubData: clubs
           });
@@ -189,6 +189,9 @@ class ClubsRoute extends Component {
   handleSearch = () => {
     this.flatListRef.scrollToOffset({ offset: 0 });
     console.log(this.state.firstQuery);
+    this.setState({
+      clubData: []
+    });
     this.handleClubSearch();
   };
 
@@ -211,6 +214,7 @@ class ClubsRoute extends Component {
             this.flatListRef = ref;
           }}
           data={this.state.clubData}
+          extraData={this.state.clubData}
           renderItem={({ item }) => <Club item={item} />}
           keyExtractor={(item, index) => index.toString()}
           style={{ marginBottom: 90 }}
