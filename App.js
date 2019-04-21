@@ -1,13 +1,7 @@
 /* global require */
 import React from "react";
+//import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
 import { TouchableOpacity, AsyncStorage, Image, View } from "react-native";
-import {
-  TouchableOpacity,
-  DrawerActions,
-  AsyncStorage,
-  Image,
-  View
-} from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
@@ -16,6 +10,7 @@ import {
 import Login from "./screens/Login";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
+import BookPage from "./screens/BookPage";
 import Parse from "parse/react-native";
 
 class NavigationDrawerStructure extends React.Component {
@@ -57,6 +52,9 @@ const DrawerNavigator = createDrawerNavigator(
     },
     SettingsScreen: {
       screen: Settings
+    },
+    BookPageScreen: {
+      screen: BookPage
     }
   },
   {

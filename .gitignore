@@ -7,4 +7,5 @@ npm-debug.*
 *.mobileprovision
 .idea/
 .vs/
-.vscode/
+.vscode/.DS_Store
+.DS_Store
