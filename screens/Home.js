@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { StyleSheet, FlatList, ScrollView } from "react-native";
 import { Searchbar, BottomNavigation } from "react-native-paper";
 import { View } from "native-base";
+import { Parse, User } from "parse/react-native";
 import Book from "../components/Book";
 import Club from "../components/Club";
 import Parse from "parse/react-native";
@@ -128,8 +129,6 @@ class ClubsRoute extends Component {
     // Fetch Clubs
     this.fetchClubs(currentUser).then(clubs => {
       clubs = JSON.parse(JSON.stringify(clubs));
-      console.log("qw");
-      console.log(clubs);
       this.setState({
         user: currentUser.id,
         clubData: clubs
@@ -177,8 +176,6 @@ class ClubsRoute extends Component {
       this.searchClubs()
         .then(clubs => {
           clubs = JSON.parse(JSON.stringify(clubs));
-
-          //   console.log('tytyt')
           this.setState({
             clubData: clubs
           });
@@ -212,18 +209,6 @@ class ClubsRoute extends Component {
             onSubmitEditing={this.handleSearch}
           />
         </View>
-        {/* <ScrollView>
-			{
-				this.state.clubData.map((val)=>{
-					console.log('wwwww')
-					console.log(val)
-					return(
-					<Club item={val} />
-					)
-				})
-			}
-		</ScrollView> */}
-
         <FlatList
           ref={ref => {
             this.flatListRef = ref;
