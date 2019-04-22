@@ -44,6 +44,11 @@ class Login extends React.Component {
 
     user.setUsername(this.state.username);
     user.setPassword(this.state.password);
+    user.set("Reading", []);
+    user.set("Completed", []);
+    user.set("Dropped", []);
+    user.set("On_hold", []);
+
     // console.log(this.state.username);
     // console.log(this.state.password);
     user

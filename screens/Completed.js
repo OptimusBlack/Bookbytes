@@ -24,6 +24,7 @@ class Completed extends Component {
   componentDidMount() {
     if (!this.currentUser) {
       console.log("No User session");
+      this.props.navigation.navigate("Login");
     }
     for (let bookId of this.currentUser.get("Completed")) {
       this.fetchBooks(bookId);
