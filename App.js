@@ -3,7 +3,8 @@ import { AsyncStorage } from "react-native";
 import {
   createAppContainer,
   createStackNavigator,
-  createDrawerNavigator
+  createDrawerNavigator,
+  createSwitchNavigator
 } from "react-navigation";
 import Login from "./screens/Login";
 import Complete from "./screens/Completed";
@@ -81,45 +82,51 @@ const DrawerNavigator = createDrawerNavigator(
   }
 );
 
-const StackNavigator = createStackNavigator(
-  {
-    Login: {
-      screen: Login
-    },
-    DrawerNavigator: {
-      screen: DrawerNavigator,
-      navigationOptions: ({ navigation }) => ({
-        header: (
-          <NavigationDrawerStructure
-            navigationProps={navigation}
-            titleText="Bookbytes"
-          />
-        )
-      })
-    },
-    Threads: {
-      screen: ThreadList,
-      navigationOptions: props => {
-        return {
-          title: "Threads"
-        };
-      }
-    },
-    Thread: {
-      screen: Thread,
-      navigationOptions: props => {
-        return {
-          title: "Threads"
-        };
-      }
+const StackNavigator = createStackNavigator({
+  DrawerNavigator: {
+    screen: DrawerNavigator,
+    navigationOptions: ({ navigation }) => ({
+      title: "Bookbytes",
+      header: <NavigationDrawerStructure navigationProps={navigation} />
+    })
+  },
+  Threads: {
+    screen: ThreadList,
+    navigationOptions: props => {
+      return {
+        title: "Threads"
+      };
     }
   },
+  Thread: {
+    screen: Thread,
+    navigationOptions: props => {
+      return {
+        title: "Threads"
+      };
+    }
+  },
+  ToRead: {
+    screen: ToRead
+  }
+});
 
+const SwitchNavigator = createSwitchNavigator(
+  {
+    Login: {
+      screen: Login,
+      navigationOptions: () => ({
+        title: "Login"
+      })
+    },
+    App: StackNavigator
+  },
   {
     initialRouteName: "Login"
   }
 );
-const AppContainer = createAppContainer(StackNavigator);
+
+const AppContainer = createAppContainer(SwitchNavigator);
 
 export default class App extends React.Component {
   render() {
