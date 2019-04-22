@@ -98,7 +98,7 @@ class Comment extends Component {
           <SectionList
             sections={[
               { title: "ThreadTitle", data: [this.thread.title] },
-              { title: "Comments", data: "x" }
+              { title: "Comments", data: this.state.comments }
             ]}
             renderItem={({ item, section }) =>
               section.title == "ThreadTitle" ? (
