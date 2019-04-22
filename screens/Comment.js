@@ -16,15 +16,16 @@ class Comment extends Component {
       comments: []
     };
   }
+
   mapIdToUserName(Id, users) {
     for (let user of users) {
-      if (user.id == Id) return user.get("username");
+      if (user.id === Id) return user.get("username");
     }
     return "Unknown";
   }
   mapIdToCommentText(Id, comments) {
     for (let comment of comments) {
-      if (comment.id == Id) {
+      if (comment.id === Id) {
         return comment.get("commentText");
       }
     }
@@ -104,14 +105,14 @@ class Comment extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content contentContainerStyle={{ flex: 1 }}>
+        <Content contentContainerStyle={{ justifyContent: "space-between" }}>
           <SectionList
             sections={[
               { title: "ThreadTitle", data: [this.thread.title] },
               { title: "Comments", data: this.state.comments }
             ]}
             renderItem={({ item, section }) =>
-              section.title == "ThreadTitle" ? (
+              section.title === "ThreadTitle" ? (
                 <Card>
                   <View style={{ justifyContent: "center", flex: 1 }}>
                     <Card.Content>

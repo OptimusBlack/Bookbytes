@@ -1,40 +1,91 @@
 import React, { Component } from "react";
 import { StyleSheet, Text } from "react-native";
-import { Form, Input, Item as FormItem, Label, Button } from "native-base";
+import { Form } from "native-base";
+import { TextInput, Button } from "react-native-paper";
 import { PropTypes } from "prop-types";
 
 class LoginDialog extends Component {
+  state = {
+    email: "",
+    pwd: ""
+  };
+
   render() {
     return (
       <Form>
-        <FormItem floatingLabel style={styles.formLabels}>
-          <Label>Email</Label>
-          <Input onChangeText={this.props.usernameChange} />
-        </FormItem>
-        <FormItem floatingLabel style={styles.formLabels}>
-          <Label>Password</Label>
-          <Input
-            secureTextEntry={true}
-            onChangeText={this.props.passwordChange}
-          />
-        </FormItem>
+        <TextInput
+          theme={{
+            colors: {
+              primary: "#000"
+            }
+          }}
+          label={"Username"}
+          onChangeText={text => {
+            this.setState({
+              email: text
+            });
+            this.props.usernameChange(text);
+          }}
+          value={this.state.email}
+          placeholder={"Type the Username here"}
+          mode="outlined"
+        />
+        <TextInput
+          theme={{
+            colors: {
+              primary: "#000"
+            }
+          }}
+          label={"Password"}
+          secureTextEntry={true}
+          onChangeText={text => {
+            this.setState({
+              pwd: text
+            });
+            this.props.passwordChange(text);
+          }}
+          value={this.state.pwd}
+          placeholder={"Type the Password here"}
+          mode="outlined"
+        />
 
         <Button
-          uth="DO IT!"
-          full
-          rounded
-          light
-          style={styles.loginButton}
-          onPress={this.props.handleLogin}
+          theme={{
+            colors: {
+              primary: "#FFFFFF"
+            }
+          }}
+          mode="contained"
+          onPress={() => {
+            this.props.handleLogin();
+            this.setState({
+              email: "",
+              pwd: ""
+            });
+          }}
+          compact={true}
+          contentStyle={styles.buttonInner}
+          style={styles.button}
         >
           <Text> Login </Text>
         </Button>
         <Button
-          full
-          rounded
-          light
-          style={styles.loginButton}
-          onPress={this.props.handleSignup}
+          theme={{
+            colors: {
+              primary: "#FFFFFF"
+            }
+          }}
+          mode="contained"
+          onPress={() => {
+            this.props.handleSignup();
+            this.setState({
+              email: "",
+              pwd: ""
+            });
+          }}
+          compact={true}
+          contentStyle={styles.buttonInner}
+          style={styles.button}
         >
           <Text> Sign Up </Text>
         </Button>
@@ -44,9 +95,11 @@ class LoginDialog extends Component {
 }
 
 const styles = StyleSheet.create({
-  loginButton: {
-    margin: 10,
-    padding: 4
+  button: {
+    marginTop: 10
+  },
+  buttonInner: {
+    height: 50
   },
   formLabels: {
     paddingBottom: 4

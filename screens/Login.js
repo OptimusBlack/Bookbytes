@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   loginForm: {
-    width: "60%"
+    width: "75%"
   }
 });
 

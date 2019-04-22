@@ -166,7 +166,7 @@ class ClubsRoute extends Component {
             renderItem={({ item }) => (
               <Club item={item} navigateToClub={this.navigateToClub} />
             )}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.objectId.toString()}
             style={{ marginBottom: 90 }}
           />
         </View>
