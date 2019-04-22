@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-  Modal,
-  TouchableHighlight
-} from "react-native";
+import { FlatList, StyleSheet, View, Text, Modal } from "react-native";
 import { Parse } from "parse/react-native";
 import ThreadTile from "../components/ThreadTile";
 import { Card } from "react-native-paper";
@@ -24,7 +17,8 @@ class ThreadList extends Component {
     club_description: "",
     threads: [],
     loading: true,
-    modalVisible: false
+    modalVisible: false,
+    refresh_threads: false
   };
 
   componentWillMount() {
@@ -84,7 +78,8 @@ class ThreadList extends Component {
         thread_query.find().then(threads => {
           threads = JSON.parse(JSON.stringify(threads));
           this.setState({
-            threads: threads
+            threads: threads,
+            refresh_threads: true
           });
         });
       });
@@ -123,7 +118,7 @@ class ThreadList extends Component {
         <FlatList
           data={this.state.threads}
           renderItem={({ item }) => <ThreadTile item={item} />}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.objectId.toString()}
           style={{ marginBottom: 90 }}
         />
 
