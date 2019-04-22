@@ -1,8 +1,8 @@
 /* global console */
 import React, { Component } from "react";
-import { StyleSheet, SectionList } from "react-native";
+import { StyleSheet, SectionList, Alert, View } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
-import { CommentSend } from "../components/CommentSend";
+import CommentSend from "../components/CommentSend";
 import Parse from "parse/react-native";
 import { Container, Content } from "native-base";
 
@@ -34,6 +34,10 @@ class Comment extends Component {
     this.setState({ messageText: text });
   };
   sendMessage = function() {
+    if (this.state.messageText === "") {
+      Alert.alert("Enter a non-empty message");
+      return;
+    }
     let parseComment = new Parse.Object("Comment");
     let currentMessage = this.state.messageText;
     parseComment.set("createdBy", this.currentUser.id);
@@ -41,6 +45,12 @@ class Comment extends Component {
     parseComment
       .save()
       .then(savedObj => {
+        let commIds = this.thread.get("commentIds");
+        commIds.push(savedObj.id);
+        this.thread.set("commentIds", commIds);
+        return this.thread.save();
+      })
+      .then(() => {
         this.setState({
           comments: [
             ...this.state.comments,
@@ -94,7 +104,7 @@ class Comment extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content>
+        <Content contentContainerStyle={{ flex: 1 }}>
           <SectionList
             sections={[
               { title: "ThreadTitle", data: [this.thread.title] },
@@ -103,9 +113,11 @@ class Comment extends Component {
             renderItem={({ item, section }) =>
               section.title == "ThreadTitle" ? (
                 <Card>
-                  <Card.Content>
-                    <Title>{item}</Title>
-                  </Card.Content>
+                  <View style={{ justifyContent: "center", flex: 1 }}>
+                    <Card.Content>
+                      <Title style={{ fontSize: 25 }}>{item}</Title>
+                    </Card.Content>
+                  </View>
                 </Card>
               ) : (
                 <Card>
@@ -130,14 +142,16 @@ class Comment extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center"
+    flex: 1
   },
   sectionList: {
-    maxHeight: "90%",
+    height: "75%",
     padding: 4
   },
   sendComment: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
     paddingBottom: 4
   }
 });

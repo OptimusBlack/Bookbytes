@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import { Button } from "react-native-paper";
-import { Input } from "native-base";
 
 class CommentSend extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Input style={styles.input} onChangeText={this.props.messageChange} />
+        <TextInput
+          style={styles.input}
+          onChangeText={this.props.messageChange}
+        />
         <Button
           style={styles.button}
           icon="send"
@@ -20,6 +22,7 @@ class CommentSend extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between"
   },
@@ -29,7 +32,7 @@ const styles = StyleSheet.create({
     padding: 4
   },
   button: {
-    margin: 5,
+    marginTop: 32,
     width: "15%"
   }
 });

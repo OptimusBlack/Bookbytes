@@ -11,6 +11,7 @@ import ToRead from "./screens/ToRead";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
 import Parse from "parse/react-native";
+import Comment from "./screens/Comment";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
 import Thread from "./screens/Thread";
@@ -76,6 +77,15 @@ const StackNavigator = createStackNavigator({
     navigationOptions: props => {
       return {
         title: "Threads"
+      };
+    }
+  },
+
+  Comment: {
+    screen: Comment,
+    navigationOptions: props => {
+      return {
+        title: "Comments"
       };
     }
   },
