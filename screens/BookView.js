@@ -25,14 +25,13 @@ class BookView extends Component {
     if (!this.currentUser) {
       this.props.navigation.navigate("Login");
     }
-  }
-  displayMoveMenu = function(event) {
     const { navigation } = this.props;
     const book = navigation.getParam("book", "");
     this.setState({
       book: book
     });
-
+  }
+  displayMoveMenu = function(event) {
     for (let action of actions) {
       if (this.currentUser.get(action).includes(this.state.book.id)) {
         this.bookListType = action;
