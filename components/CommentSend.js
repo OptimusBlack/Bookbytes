@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 
 class CommentSend extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <TextInput
           style={styles.input}
           placeholder="Write a comment..."
@@ -16,7 +16,7 @@ class CommentSend extends Component {
           icon="send"
           onPress={this.props.sendMessage}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

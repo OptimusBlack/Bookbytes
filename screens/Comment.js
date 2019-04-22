@@ -5,7 +5,8 @@ import {
   SectionList,
   Alert,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView
 } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import CommentSend from "../components/CommentSend";
@@ -29,6 +30,7 @@ class Comment extends Component {
     }
     return "Unknown";
   }
+
   mapIdToCommentText(Id, comments) {
     for (let comment of comments) {
       if (comment.id === Id) {
@@ -37,9 +39,11 @@ class Comment extends Component {
     }
     return "Data cannot be retrieved ATM";
   }
+
   messageChange = function(text) {
     this.setState({ messageText: text });
   };
+
   sendMessage = function() {
     if (this.state.messageText === "") {
       Alert.alert("Enter a non-empty message");
@@ -69,19 +73,20 @@ class Comment extends Component {
         console.log(err);
       });
   };
+
   componentDidMount() {
     if (!this.currentUser) {
       this.props.navigation.navigate("Login");
     }
-    let commentIds = this.thread.commentIds;
+    let commentIds = this.thread.get("commentIds");
     let parseCommentUserIds = new Parse.Query("Comment");
-    parseCommentUserIds.containedIn("objectId", this.thread.commentIds);
+    parseCommentUserIds.containedIn("objectId", this.thread.get("commentIds"));
     parseCommentUserIds
       .find()
       .then(comments => {
         commentIds = commentIds.map((Id, index) => [
           Id,
-          /*User ID*/ comments[index],
+          /*User ID*/ comments[index].get("createdBy"),
           this.mapIdToCommentText(Id, comments)
         ]);
         let userIds = commentIds.map(value => value[1]);
@@ -110,13 +115,15 @@ class Comment extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
-        <Container style={styles.container}>
-          <Content contentContainerStyle={{ flex: 1 }} enableOnAndroid>
+      <Container style={styles.container}>
+        <KeyboardAvoidingView enabled style={styles.container}>
+          <Content
+            contentContainerStyle={{ flex: 1, justifyContent: "flex-end" }}
+          >
             <SectionList
-              style={{ flex: 1 }}
+              style={styles.container}
               sections={[
-                { title: "ThreadTitle", data: [this.thread.title] },
+                { title: "ThreadTitle", data: [this.thread.get("title")] },
                 { title: "Comments", data: this.state.comments }
               ]}
               renderItem={({ item, section }) =>
@@ -138,22 +145,16 @@ class Comment extends Component {
                 )
               }
             />
-            <View
-              style={{
-                position: "absolute",
-                bottom: 0,
-                height: 50,
-                width: "100%"
-              }}
-            >
+            <View style={styles.CommentSendView}>
               <CommentSend
                 messageChange={this.messageChange.bind(this)}
                 sendMessage={this.sendMessage.bind(this)}
               />
             </View>
+            <View style={{ flex: 1 }} />
           </Content>
-        </Container>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </Container>
     );
   }
 }
@@ -171,6 +172,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     paddingBottom: 4
+  },
+  CommentSendView: {
+    position: "absolute",
+    bottom: 0,
+    height: 50,
+    width: "100%"
   }
 });
 
