@@ -114,9 +114,6 @@ const StackNavigator = createStackNavigator({
         title: "Comments"
       };
     }
-  },
-  ToRead: {
-    screen: ToRead
   }
 });
 
