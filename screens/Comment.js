@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { StyleSheet, SectionList } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
-import { CommentSend } from "../components/CommentSend";
+import CommentSend from "../components/CommentSend";
 import Parse from "parse/react-native";
 import { Container, Content } from "native-base";
 
@@ -16,15 +16,16 @@ class Comment extends Component {
       comments: []
     };
   }
+
   mapIdToUserName(Id, users) {
     for (let user of users) {
-      if (user.id == Id) return user.get("username");
+      if (user.id === Id) return user.get("username");
     }
     return "Unknown";
   }
   mapIdToCommentText(Id, comments) {
     for (let comment of comments) {
-      if (comment.id == Id) {
+      if (comment.id === Id) {
         return comment.get("commentText");
       }
     }
@@ -94,14 +95,14 @@ class Comment extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content>
+        <Content contentContainerStyle={{ justifyContent: "space-between" }}>
           <SectionList
             sections={[
               { title: "ThreadTitle", data: [this.thread.title] },
               { title: "Comments", data: this.state.comments }
             ]}
             renderItem={({ item, section }) =>
-              section.title == "ThreadTitle" ? (
+              section.title === "ThreadTitle" ? (
                 <Card>
                   <Card.Content>
                     <Title>{item}</Title>

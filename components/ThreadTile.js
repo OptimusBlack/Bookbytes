@@ -12,7 +12,7 @@ class ThreadTile extends React.PureComponent {
   };
 
   navigateToThread = () => {
-    this.props.navigation.navigate("Thread", {
+    this.props.navigation.navigate("Comment", {
       thread: this.props.item
     });
   };

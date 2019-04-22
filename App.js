@@ -14,6 +14,7 @@ import Parse from "parse/react-native";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
 import Thread from "./screens/Thread";
+import Comment from "./screens/Comment";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -84,6 +85,14 @@ const StackNavigator = createStackNavigator({
     navigationOptions: props => {
       return {
         title: "Threads"
+      };
+    }
+  },
+  Comment: {
+    screen: Comment,
+    navigationOptions: () => {
+      return {
+        title: "Comments"
       };
     }
   },
