@@ -51,7 +51,7 @@ class BookView extends Component {
         }
         if (this.bookListType != "None") {
           let arr = this.currentUser.get(actions[this.bookListType]);
-          arr = arr.splice(this.mapIdToIndex(this.state.book.Id, arr), 1);
+          arr = arr.splice(this.mapIdToIndex(this.state.book.id, arr), 1);
           this.currentUser.set(actions[this.bookListType], arr);
         }
         let arr = this.currentUser.get(actions[index]);
