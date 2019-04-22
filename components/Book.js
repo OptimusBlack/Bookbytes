@@ -11,7 +11,12 @@ class Book extends Component {
   }
   render() {
     return (
-      <Card style={styles.card}>
+      <Card
+        style={styles.card}
+        onPress={() => {
+          this.props.navigateToBook(this.props.book);
+        }}
+      >
         <Card.Title
           title={this.props.book.volumeInfo.title}
           subtitle={
@@ -37,10 +42,6 @@ class Book extends Component {
             ? this.props.book.volumeInfo.description
             : "No description..."}
         </Text>
-        {/* <Card.Actions>
-                    <Button>Cancel</Button>
-                    <Button>Ok</Button>
-                </Card.Actions> */}
       </Card>
     );
   }

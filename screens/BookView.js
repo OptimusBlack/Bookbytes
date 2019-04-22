@@ -1,7 +1,7 @@
 /* global console */
 import React, { Component } from "react";
 import { Card, Button, Paragraph } from "react-native-paper";
-import { StyleSheet, UIManager, Alert } from "react-native";
+import { StyleSheet, UIManager, Alert, ScrollView, View } from "react-native";
 import Parse from "parse/react-native";
 
 const actions = ["Reading", "Completed", "On_hold", "Dropped"];
@@ -11,6 +11,9 @@ class BookView extends Component {
     super(props);
     this.currentUser = Parse.User.current();
     this.bookListType = "None";
+    this.state = {
+      book: ""
+    };
   }
   mapIdToIndex = function(Id, bookList) {
     for (let i = 0; i < bookList.length; i++) {
@@ -18,12 +21,21 @@ class BookView extends Component {
     }
     return -1;
   };
-  componentDidMount() {
+  componentWillMount() {
     if (!this.currentUser) {
       this.props.navigation.navigate("Login");
     }
+    const { navigation } = this.props;
+    const book = navigation.getParam("book", "");
+    console.log(book);
+    this.setState({
+      book: book
+    });
+    console.log("GHJK");
+    console.log(this.state.book);
+    console.log("HERRE");
     for (let action of actions) {
-      if (this.currentUser.get(action).includes(this.props.book.id)) {
+      if (this.currentUser.get(action).includes(this.state.book.id)) {
         this.bookListType = action;
         break;
       }
@@ -42,11 +54,11 @@ class BookView extends Component {
         }
         if (this.bookListType != "None") {
           let arr = this.currentUser.get(actions[this.bookListType]);
-          arr = arr.splice(this.mapIdToIndex(this.props.book.Id, arr), 1);
+          arr = arr.splice(this.mapIdToIndex(this.state.book.Id, arr), 1);
           this.currentUser.set(actions[this.bookListType], arr);
         }
         let arr = this.currentUser.get(actions[index]);
-        arr.push(this.props.book.id);
+        arr.push(this.state.book.id);
         this.currentUser.set(actions[index], arr);
         this.currentUser
           .save()
@@ -62,29 +74,50 @@ class BookView extends Component {
   };
   render() {
     return (
-      <Card style={styles.card}>
-        <Card.Cover
-          style={styles.cardCover}
-          source={{ uri: this.props.book.imageLinks.thumbnail }}
-        />
-        <Card.Title
-          title={this.props.book.volumeInfo.title}
-          subtitle={
-            this.props.book.volumeInfo.authors != null
-              ? this.props.book.volumeInfo.authors.join(", ")
-              : "..."
-          }
-        />
-        <Card.Content>
-          <Paragraph>
-            {"Published in " + this.props.book.publishedDate}
-          </Paragraph>
-          <Paragraph>{this.props.book.description}</Paragraph>
-        </Card.Content>
-        <Card.Actions>
-          <Button icon="add_circle" onPress={this.displayMoveMenu.bind(this)} />
-        </Card.Actions>
-      </Card>
+      <ScrollView>
+        <Card style={styles.card}>
+          <View style={{ alignItems: "center" }}>
+            <Card.Cover
+              style={styles.cardCover}
+              source={{
+                uri:
+                  this.state.book.volumeInfo.imageLinks != null
+                    ? this.state.book.volumeInfo.imageLinks.thumbnail
+                    : "https://vignette.wikia.nocookie.net/marveldatabase/images/3/3f/No_Image_Cover.jpg"
+              }}
+            />
+          </View>
+          <Card.Title
+            title={this.state.book.volumeInfo.title}
+            subtitle={
+              this.state.book.volumeInfo.authors != null
+                ? this.state.book.volumeInfo.authors.join(", ")
+                : "..."
+            }
+          />
+          <Card.Content>
+            <Paragraph>
+              {"Published in " + this.state.book.volumeInfo.publishedDate}
+            </Paragraph>
+            <Paragraph numberOfLines={8}>
+              {this.state.book.volumeInfo.description}
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions style={{ marginTop: 30 }}>
+            <Button
+              theme={{
+                colors: {
+                  primary: "#000"
+                }
+              }}
+              icon="add"
+              onPress={this.displayMoveMenu.bind(this)}
+              style={styles.button}
+              contentStyle={styles.buttonInner}
+            />
+          </Card.Actions>
+        </Card>
+      </ScrollView>
     );
   }
 }
@@ -99,8 +132,20 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     minHeight: 300
   },
+  button: {
+    marginTop: 50,
+    position: "absolute",
+    right: 0,
+    bottom: 0
+  },
+  buttonInner: {
+    height: 30,
+    width: 40
+  },
   cardCover: {
-    margin: 20
+    margin: 20,
+    width: 150,
+    height: 250
   }
 });
 

@@ -48,6 +48,10 @@ class On_hold extends Component {
       });
   };
 
+  navigateToBook = book => {
+    this.props.navigation.navigate("BookDetails", { book: book });
+  };
+
   render() {
     return (
       <Container style={styles.container}>
@@ -171,7 +175,7 @@ class On_hold extends Component {
                   );
                 }}
               >
-                <Book book={item} />
+                <Book book={item} navigateToBook={this.navigateToBook} />
               </TouchableOpacity>
             )}
           />

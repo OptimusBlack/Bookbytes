@@ -18,6 +18,7 @@ import Comment from "./screens/Comment";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
 import Thread from "./screens/Thread";
+import Book from "./screens/BookView";
 import Logout from "./components/Logout";
 
 class NavigationDrawerStructure extends React.Component {
@@ -113,6 +114,14 @@ const StackNavigator = createStackNavigator({
     navigationOptions: props => {
       return {
         title: "Threads"
+      };
+    }
+  },
+  BookDetails: {
+    screen: Book,
+    navigationOptions: props => {
+      return {
+        title: "Book Details"
       };
     }
   }
