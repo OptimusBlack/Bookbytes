@@ -22,14 +22,23 @@ class Dropped extends Component {
   }
   componentDidMount() {
     if (!this.currentUser) {
-      console.log("No User session");
       this.props.navigation.navigate("Login");
     }
-    for (let bookId of this.currentUser.get("Dropped")) {
-      this.fetchBooks(bookId);
-    }
-  }
 
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.setState({ booksData: [] });
+
+        for (let bookId of this.currentUser.get("Dropped")) {
+          this.fetchBooks(bookId);
+        }
+      }
+    );
+  }
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
+  }
   //https://www.googleapis.com/books/v1/volumes?q=id:buc0AAAAMAAJ
   fetchBooks = function(bookId) {
     let queryURL = "https://www.googleapis.com/books/v1/volumes/";
@@ -55,7 +64,7 @@ class Dropped extends Component {
     return (
       <Container style={styles.container}>
         <Content contentContainerStyle={{ alignItems: "center", flex: 1 }}>
-          <Text style={styles.header}> Dropped </Text>
+          <Text style={styles.header}> Left </Text>
           <FlatList
             data={this.state.booksData}
             renderItem={({ item }) => (
@@ -78,7 +87,6 @@ class Dropped extends Component {
                         let bookIds = parseUser.get("Dropped");
                         let bookindex = bookIds.indexOf(item.id);
                         if (bookindex >= 0) {
-                          console;
                           let ReadingbookIds = parseUser.get(
                             actionsToRead[index]
                           );
@@ -193,7 +201,7 @@ const styles = StyleSheet.create({
     margin: 10
   },
   header: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold"
   }
 });

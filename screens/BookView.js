@@ -32,12 +32,6 @@ class BookView extends Component {
     });
   }
   displayMoveMenu = function(event) {
-    for (let action of actions) {
-      if (this.currentUser.get(action).includes(this.state.book.id)) {
-        this.bookListType = action;
-        break;
-      }
-    }
     UIManager.showPopupMenu(
       event.target,
       actions,
@@ -48,9 +42,15 @@ class BookView extends Component {
         if (eventName != "itemSelected") {
           return;
         }
+        for (let action of actions) {
+          if (this.currentUser.get(action).indexOf(this.state.book.id) > -1) {
+            this.bookListType = action;
+          }
+          this.bookListType = "None";
+        }
         if (this.bookListType != "None") {
           let arr = this.currentUser.get(actions[this.bookListType]);
-          arr = arr.splice(this.mapIdToIndex(this.state.book.id, arr), 1);
+          arr.splice(this.mapIdToIndex(this.state.book.id, arr), 1);
           this.currentUser.set(actions[this.bookListType], arr);
         }
         let arr = this.currentUser.get(actions[index]);

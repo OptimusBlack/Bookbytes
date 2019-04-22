@@ -23,12 +23,22 @@ class On_hold extends Component {
   }
   componentDidMount() {
     if (!this.currentUser) {
-      console.log("No User session");
       this.props.navigation.navigate("Login");
     }
-    for (let bookId of this.currentUser.get("On_hold")) {
-      this.fetchBooks(bookId);
-    }
+
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.setState({ booksData: [] });
+
+        for (let bookId of this.currentUser.get("On_hold")) {
+          this.fetchBooks(bookId);
+        }
+      }
+    );
+  }
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
 
   //https://www.googleapis.com/books/v1/volumes?q=id:buc0AAAAMAAJ
@@ -79,7 +89,6 @@ class On_hold extends Component {
                         let bookIds = parseUser.get("On_hold");
                         let bookindex = bookIds.indexOf(item.id);
                         if (bookindex >= 0) {
-                          console;
                           let ReadingbookIds = parseUser.get(
                             actionsToRead[index]
                           );

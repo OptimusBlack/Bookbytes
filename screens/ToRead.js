@@ -23,12 +23,21 @@ class ToRead extends Component {
   }
   componentDidMount() {
     if (!this.currentUser) {
-      console.log("No User session");
       this.props.navigation.navigate("Login");
     }
-    for (let bookId of this.currentUser.get("Reading")) {
-      this.fetchBooks(bookId);
-    }
+
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.setState({ booksData: [] });
+        for (let bookId of this.currentUser.get("Reading")) {
+          this.fetchBooks(bookId);
+        }
+      }
+    );
+  }
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
 
   //https://www.googleapis.com/books/v1/volumes?q=id:buc0AAAAMAAJ
