@@ -59,13 +59,13 @@ const DrawerNavigator = createDrawerNavigator(
     Home: {
       screen: HomeScreen
     },
-    ToRead: {
+    Reading: {
       screen: ToRead
     },
-    Complete: {
+    Completed: {
       screen: Complete
     },
-    Drop: {
+    Dropped: {
       screen: Drop
     },
     Hold: {
@@ -89,7 +89,12 @@ const StackNavigator = createStackNavigator({
     screen: DrawerNavigator,
     navigationOptions: ({ navigation }) => ({
       title: "Bookbytes",
-      header: <NavigationDrawerStructure navigationProps={navigation} />
+      header: (
+        <NavigationDrawerStructure
+          navigationProps={navigation}
+          titleText="Bookbytes"
+        />
+      )
     })
   },
   Threads: {

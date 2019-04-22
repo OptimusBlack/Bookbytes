@@ -1,6 +1,13 @@
 /* global console */
 import React, { Component } from "react";
-import { StyleSheet, SectionList, Alert, View } from "react-native";
+import {
+  StyleSheet,
+  SectionList,
+  Alert,
+  View,
+  KeyboardAvoidingView,
+  ScrollView
+} from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import CommentSend from "../components/CommentSend";
 import Parse from "parse/react-native";
@@ -23,6 +30,7 @@ class Comment extends Component {
     }
     return "Unknown";
   }
+
   mapIdToCommentText(Id, comments) {
     for (let comment of comments) {
       if (comment.id === Id) {
@@ -31,9 +39,11 @@ class Comment extends Component {
     }
     return "Data cannot be retrieved ATM";
   }
+
   messageChange = function(text) {
     this.setState({ messageText: text });
   };
+
   sendMessage = function() {
     if (this.state.messageText === "") {
       Alert.alert("Enter a non-empty message");
@@ -63,19 +73,20 @@ class Comment extends Component {
         console.log(err);
       });
   };
+
   componentDidMount() {
     if (!this.currentUser) {
       this.props.navigation.navigate("Login");
     }
-    let commentIds = this.thread.commentIds;
+    let commentIds = this.thread.get("commentIds");
     let parseCommentUserIds = new Parse.Query("Comment");
-    parseCommentUserIds.containedIn("objectId", this.thread.commentIds);
+    parseCommentUserIds.containedIn("objectId", this.thread.get("commentIds"));
     parseCommentUserIds
       .find()
       .then(comments => {
         commentIds = commentIds.map((Id, index) => [
           Id,
-          /*User ID*/ comments[index],
+          /*User ID*/ comments[index].get("createdBy"),
           this.mapIdToCommentText(Id, comments)
         ]);
         let userIds = commentIds.map(value => value[1]);
@@ -105,37 +116,44 @@ class Comment extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content contentContainerStyle={{ justifyContent: "space-between" }}>
-          <SectionList
-            sections={[
-              { title: "ThreadTitle", data: [this.thread.title] },
-              { title: "Comments", data: this.state.comments }
-            ]}
-            renderItem={({ item, section }) =>
-              section.title === "ThreadTitle" ? (
-                <Card>
-                  <View style={{ justifyContent: "center", flex: 1 }}>
+        <KeyboardAvoidingView enabled style={styles.container}>
+          <Content
+            contentContainerStyle={{ flex: 1, justifyContent: "flex-end" }}
+          >
+            <SectionList
+              style={styles.container}
+              sections={[
+                { title: "ThreadTitle", data: [this.thread.get("title")] },
+                { title: "Comments", data: this.state.comments }
+              ]}
+              renderItem={({ item, section }) =>
+                section.title === "ThreadTitle" ? (
+                  <Card>
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                      <Card.Content>
+                        <Title style={{ fontSize: 25 }}>{item}</Title>
+                      </Card.Content>
+                    </View>
+                  </Card>
+                ) : (
+                  <Card>
                     <Card.Content>
-                      <Title style={{ fontSize: 25 }}>{item}</Title>
+                      <Title>{item.name}</Title>
+                      <Paragraph>{item.comment}</Paragraph>
                     </Card.Content>
-                  </View>
-                </Card>
-              ) : (
-                <Card>
-                  <Card.Content>
-                    <Title>{item.name}</Title>
-                    <Paragraph>{item.comment}</Paragraph>
-                  </Card.Content>
-                </Card>
-              )
-            }
-          />
-          <CommentSend
-            style={styles.sendComment}
-            messageChange={this.messageChange.bind(this)}
-            sendMessage={this.sendMessage.bind(this)}
-          />
-        </Content>
+                  </Card>
+                )
+              }
+            />
+            <View style={styles.CommentSendView}>
+              <CommentSend
+                messageChange={this.messageChange.bind(this)}
+                sendMessage={this.sendMessage.bind(this)}
+              />
+            </View>
+            <View style={{ flex: 1 }} />
+          </Content>
+        </KeyboardAvoidingView>
       </Container>
     );
   }
@@ -146,14 +164,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   sectionList: {
-    height: "75%",
     padding: 4
   },
   sendComment: {
     position: "absolute",
     bottom: 0,
+    height: 50,
     width: "100%",
     paddingBottom: 4
+  },
+  CommentSendView: {
+    position: "absolute",
+    bottom: 0,
+    height: 50,
+    width: "100%"
   }
 });
 
