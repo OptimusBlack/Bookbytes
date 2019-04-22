@@ -1,6 +1,12 @@
 /* global console */
 import React, { Component } from "react";
-import { StyleSheet, SectionList, Alert, View } from "react-native";
+import {
+  StyleSheet,
+  SectionList,
+  Alert,
+  View,
+  KeyboardAvoidingView
+} from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import CommentSend from "../components/CommentSend";
 import Parse from "parse/react-native";
@@ -104,39 +110,50 @@ class Comment extends Component {
 
   render() {
     return (
-      <Container style={styles.container}>
-        <Content contentContainerStyle={{ justifyContent: "space-between" }}>
-          <SectionList
-            sections={[
-              { title: "ThreadTitle", data: [this.thread.title] },
-              { title: "Comments", data: this.state.comments }
-            ]}
-            renderItem={({ item, section }) =>
-              section.title === "ThreadTitle" ? (
-                <Card>
-                  <View style={{ justifyContent: "center", flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <Container style={styles.container}>
+          <Content contentContainerStyle={{ flex: 1 }} enableOnAndroid>
+            <SectionList
+              style={{ flex: 1 }}
+              sections={[
+                { title: "ThreadTitle", data: [this.thread.title] },
+                { title: "Comments", data: this.state.comments }
+              ]}
+              renderItem={({ item, section }) =>
+                section.title === "ThreadTitle" ? (
+                  <Card>
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                      <Card.Content>
+                        <Title style={{ fontSize: 25 }}>{item}</Title>
+                      </Card.Content>
+                    </View>
+                  </Card>
+                ) : (
+                  <Card>
                     <Card.Content>
-                      <Title style={{ fontSize: 25 }}>{item}</Title>
+                      <Title>{item.name}</Title>
+                      <Paragraph>{item.comment}</Paragraph>
                     </Card.Content>
-                  </View>
-                </Card>
-              ) : (
-                <Card>
-                  <Card.Content>
-                    <Title>{item.name}</Title>
-                    <Paragraph>{item.comment}</Paragraph>
-                  </Card.Content>
-                </Card>
-              )
-            }
-          />
-          <CommentSend
-            style={styles.sendComment}
-            messageChange={this.messageChange.bind(this)}
-            sendMessage={this.sendMessage.bind(this)}
-          />
-        </Content>
-      </Container>
+                  </Card>
+                )
+              }
+            />
+            <View
+              style={{
+                position: "absolute",
+                bottom: 0,
+                height: 50,
+                width: "100%"
+              }}
+            >
+              <CommentSend
+                messageChange={this.messageChange.bind(this)}
+                sendMessage={this.sendMessage.bind(this)}
+              />
+            </View>
+          </Content>
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -146,12 +163,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   sectionList: {
-    height: "75%",
     padding: 4
   },
   sendComment: {
     position: "absolute",
     bottom: 0,
+    height: 50,
     width: "100%",
     paddingBottom: 4
   }
