@@ -25,23 +25,20 @@ class BookView extends Component {
     if (!this.currentUser) {
       this.props.navigation.navigate("Login");
     }
+  }
+  displayMoveMenu = function(event) {
     const { navigation } = this.props;
     const book = navigation.getParam("book", "");
-    console.log(book);
     this.setState({
       book: book
     });
-    console.log("GHJK");
-    console.log(this.state.book);
-    console.log("HERRE");
+
     for (let action of actions) {
       if (this.currentUser.get(action).includes(this.state.book.id)) {
         this.bookListType = action;
         break;
       }
     }
-  }
-  displayMoveMenu = function(event) {
     UIManager.showPopupMenu(
       event.target,
       actions,
