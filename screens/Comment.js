@@ -9,7 +9,7 @@ import { Container, Content } from "native-base";
 class Comment extends Component {
   constructor(props) {
     super(props);
-    this.thread = this.props.thread;
+    this.thread = this.props.navigation.getParam("thread");
     this.currentUser = Parse.User.current();
     this.state = {
       messageText: "",
@@ -97,7 +97,7 @@ class Comment extends Component {
         <Content>
           <SectionList
             sections={[
-              { title: "ThreadTitle", data: [this.props.thread.title] },
+              { title: "ThreadTitle", data: [this.thread.title] },
               { title: "Comments", data: "x" }
             ]}
             renderItem={({ item, section }) =>
