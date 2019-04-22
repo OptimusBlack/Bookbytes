@@ -10,10 +10,6 @@ class Login extends React.Component {
     password: ""
   };
 
-  /**
-   * Function to handle user login. Put login logic here
-   */
-
   usernameChange = function(text) {
     this.setState({ ...this.state, username: text });
   };
