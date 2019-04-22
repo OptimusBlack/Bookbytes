@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Button, TextInput } from "react-native-paper";
 
 class CommentSend extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <TextInput
           style={styles.input}
+          placeholder="Write a comment..."
           onChangeText={this.props.messageChange}
         />
         <Button
@@ -15,7 +16,7 @@ class CommentSend extends Component {
           icon="send"
           onPress={this.props.sendMessage}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -23,16 +24,17 @@ class CommentSend extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginLeft: 5,
+    marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between"
   },
   input: {
-    width: "80%",
-    margin: 10,
-    padding: 4
+    flex: 1,
+    paddingBottom: 5
   },
   button: {
-    marginTop: 32,
+    padding: 15,
     width: "15%"
   }
 });
