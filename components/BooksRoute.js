@@ -72,6 +72,10 @@ class BooksRoute extends Component {
     this.fetchBooks();
   };
 
+  navigateToBook = book => {
+    this.props.navigation.navigate("BookDetails", { book: book });
+  };
+
   render() {
     const { firstQuery } = this.state;
     return (
@@ -91,7 +95,9 @@ class BooksRoute extends Component {
             this.flatListRef = ref;
           }}
           data={this.state.booksData}
-          renderItem={({ item }) => <Book book={item} />}
+          renderItem={({ item }) => (
+            <Book book={item} navigateToBook={this.navigateToBook} />
+          )}
           style={{ marginBottom: 90 }}
           onEndReached={this.fetchMoreBooks.bind(this)}
           keyExtractor={(item, index) => index.toString()}

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { Container, Content } from "native-base";
 import LoginDialog from "../components/LoginDialog";
 import { PropTypes } from "prop-types";
@@ -32,7 +32,7 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
-        // console.log(err.message);
+        Alert.alert(err.message);
       });
   };
   handleSignup = function() {
@@ -56,7 +56,7 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
-        // console.log(err.message);
+        Alert.alert(err.message);
       });
   };
 

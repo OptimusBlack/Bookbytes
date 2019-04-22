@@ -1,5 +1,6 @@
+/*global require*/
 import React, { Component } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, Image, View } from "react-native";
 import { Form } from "native-base";
 import { TextInput, Button } from "react-native-paper";
 import { PropTypes } from "prop-types";
@@ -13,6 +14,12 @@ class LoginDialog extends Component {
   render() {
     return (
       <Form>
+        <View style={{ alignItems: "center" }}>
+          <Image
+            style={{ alignItems: "center", marginBottom: 30 }}
+            source={require("../assets/splash.png")}
+          />
+        </View>
         <TextInput
           theme={{
             colors: {
