@@ -93,7 +93,10 @@ class BookView extends Component {
           />
           <Card.Content>
             <Paragraph>
-              {"Published in " + this.state.book.volumeInfo.publishedDate}
+              {"Published in " + this.state.book.volumeInfo.publishedDate !=
+              null
+                ? this.state.book.volumeInfo.publishedDate
+                : "N/A"}
             </Paragraph>
             <Paragraph numberOfLines={8}>
               {this.state.book.volumeInfo.description}
