@@ -6,6 +6,9 @@ import {
   createDrawerNavigator
 } from "react-navigation";
 import Login from "./screens/Login";
+import Complete from "./screens/Completed";
+import Drop from "./screens/Dropped";
+import Hold from "./screens/On_hold";
 import ToRead from "./screens/ToRead";
 import HomeScreen from "./screens/Home";
 import Settings from "./screens/Setting";
@@ -13,6 +16,7 @@ import Parse from "parse/react-native";
 import { Appbar } from "react-native-paper";
 import ThreadList from "./screens/ThreadList";
 import Thread from "./screens/Thread";
+import Logout from "./components/Logout";
 
 class NavigationDrawerStructure extends React.Component {
   //Structure for the navigatin Drawer
@@ -30,7 +34,7 @@ class NavigationDrawerStructure extends React.Component {
         }}
       >
         <Appbar.Action icon="menu" onPress={this.toggleDrawer.bind(this)} />
-        <Appbar.Content title="Bookbytes" />
+        <Appbar.Content title={this.props.titleText} />
       </Appbar.Header>
     );
   }
@@ -52,8 +56,23 @@ const DrawerNavigator = createDrawerNavigator(
     Home: {
       screen: HomeScreen
     },
+    ToRead: {
+      screen: ToRead
+    },
+    Complete: {
+      screen: Complete
+    },
+    Drop: {
+      screen: Drop
+    },
+    Hold: {
+      screen: Hold
+    },
     Settings: {
       screen: Settings
+    },
+    Logout: {
+      screen: Logout
     }
   },
   {
@@ -67,14 +86,15 @@ const StackNavigator = createStackNavigator(
     Login: {
       screen: Login
     },
-    ToRead: {
-      screen: ToRead
-    },
     DrawerNavigator: {
       screen: DrawerNavigator,
       navigationOptions: ({ navigation }) => ({
-        title: "Bookbytes",
-        header: <NavigationDrawerStructure navigationProps={navigation} />
+        header: (
+          <NavigationDrawerStructure
+            navigationProps={navigation}
+            titleText="Bookbytes"
+          />
+        )
       })
     },
     Threads: {
