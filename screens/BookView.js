@@ -49,9 +49,11 @@ class BookView extends Component {
           return;
         }
         if (this.bookListType != "None") {
-          let arr = this.currentUser.get(actions[this.bookListType]);
+          let arr = this.currentUser.get(this.bookListType);
+          console.log(arr);
+          console.log(this.bookListType);
           arr = arr.splice(this.mapIdToIndex(this.state.book.id, arr), 1);
-          this.currentUser.set(actions[this.bookListType], arr);
+          this.currentUser.set(this.bookListType, arr);
         }
         let arr = this.currentUser.get(actions[index]);
         arr.push(this.state.book.id);
@@ -93,7 +95,10 @@ class BookView extends Component {
           />
           <Card.Content>
             <Paragraph>
-              {"Published in " + this.state.book.volumeInfo.publishedDate}
+              {"Published in " + this.state.book.volumeInfo.publishedDate !=
+              null
+                ? this.state.book.volumeInfo.publishedDate
+                : "N/A"}
             </Paragraph>
             <Paragraph numberOfLines={8}>
               {this.state.book.volumeInfo.description}
