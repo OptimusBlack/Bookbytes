@@ -65,6 +65,7 @@ class ClubsDialog extends Component {
             }}
             placeholder={"Type the Title here"}
             mode="outlined"
+            value={this.state.title}
             // style={{ marginBottom: 20 }}
           />
           <TextInput
@@ -79,6 +80,7 @@ class ClubsDialog extends Component {
             }}
             placeholder={"Type the Description here"}
             mode="outlined"
+            value={this.state.description}
             // style={{ height: 100, marginBottom: 15 }}
           />
           <Button

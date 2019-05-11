@@ -144,7 +144,7 @@ class ClubsRoute extends Component {
             requestClose={() => {
               this.setState({ modalVisible: false });
             }}
-            addToClub={this.addClub.bind(this)}
+            addToClub={this.addClub}
           />
         </Modal>
         <View style={styles.searchBar}>
